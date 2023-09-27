@@ -7,9 +7,6 @@ import TopNav from './topNav/TopNav'
 
 async function Nav() {
     const session = await getServerSession(options)
-  if(!session){
-      redirect("/")
-  }
     return session ? (
         <div className={styles.container}>
             <TopNav session={session}  />

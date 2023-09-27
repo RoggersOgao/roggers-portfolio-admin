@@ -13,9 +13,6 @@ import { Suspense } from "react"
 export default async function Page() {
   const session = await getServerSession(options)
   // Function to count users for a specific year
-  if(!session || session == "null"){
-   redirect("/")
-  }
   const crUsers =  fetchUser();
   const gbUsers =  fetchGithubUsers();
   const ggUsers =  fetchGoogleUsers();
