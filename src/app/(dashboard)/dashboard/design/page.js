@@ -15,10 +15,6 @@ export const metadata = {
 
 export default async function page() {
   const session = await getServerSession(options);
-  if (!session) {
-    redirect("/");
-  }
-
   const design = await fetchDesign();
 
   return session ? (

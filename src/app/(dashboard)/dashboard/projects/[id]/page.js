@@ -9,9 +9,6 @@ import EditProjectForm from "@/dashboardComponents/projects/editProjectForm/Edit
 export default async function Page({params}){
     const session = await getServerSession(options)
 
-    if(!session){
-        redirect("/")
-    }
     const singleProject = await fetchProjectById(params.id)
 
     const projectData = singleProject.projects

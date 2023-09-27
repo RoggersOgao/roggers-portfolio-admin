@@ -13,10 +13,6 @@ export const metadata = {
   
 export default async function Page(){
     const session = await getServerSession(options)
-    if(!session){
-        redirect("/")
-    }
-
     return session ? (
         <div className={styles.container}>
             <div className={styles.right}>

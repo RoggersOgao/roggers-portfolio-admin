@@ -9,9 +9,6 @@ import NewProjectForm from "@/dashboardComponents/projects/newProjectForm/NewPro
 
 export default async function Page(){
     const session = await getServerSession(options)
-    if(!session){
-        redirect("/")
-    }
 
     return session ? (
         <div className={styles.container}>

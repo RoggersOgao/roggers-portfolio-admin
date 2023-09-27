@@ -16,9 +16,6 @@ export const metadata = {
 
 export default async function Page() {
   const session = await getServerSession(options);
-  if (!session) {
-    redirect("/");
-  }
 
   const project = await fetchProject();
 

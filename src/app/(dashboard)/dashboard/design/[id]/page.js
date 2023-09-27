@@ -8,10 +8,6 @@ import EditDesign from "@/dashboardComponents/design/editDesign/EditDesign";
 
 export default async function Page({params}){
     const session = await getServerSession(options)
-
-    if(!session){
-        redirect("/")
-    }
     const singleDesign = await fetchDesignById(params.id)
 
     const designData = singleDesign.designs
