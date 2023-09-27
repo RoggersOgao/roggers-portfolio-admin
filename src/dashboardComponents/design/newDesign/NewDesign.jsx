@@ -24,7 +24,7 @@ function NewDesign({session}) {
   const formRef = useRef();
   const selectRef = useRef(null);
   const router = useRouter();
-  
+
   const setField = (value, field) => {
     setForm({
       ...form,
@@ -87,7 +87,8 @@ function NewDesign({session}) {
       
       router.push("/dashboard/design");
     } catch (err) {
-      alert("error uploading file", err);
+      console.log(err)
+      alert(err.message);
       setIsLoading(false);
     }
   };
