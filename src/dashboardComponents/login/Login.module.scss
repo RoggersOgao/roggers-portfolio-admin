@@ -1,0 +1,217 @@
+@import "../../mixin";
+
+.container {
+    min-height: 98vh;
+    overflow: hidden;
+
+    .login {
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        height:98vh;
+        &Cont {
+            width:30%;
+
+            @include respond(tab-land){
+                width:40%;
+            }
+            @include respond(tab-port){
+                width:60%;
+            }
+            @include respond(phone){
+                width:80%;
+            }
+            @include respond(sm-phone){
+                width:90%;
+            }
+            .logo{
+                text-align:center;
+               .logoImg{
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                padding:2rem 0;
+                gap:1rem;
+                width:100%;
+
+                   .img{
+                       width:8rem;
+                       height:auto;
+                   }
+                   .name{
+                       font-size:3rem;
+                       h1{
+                        font-weight:1000;
+                       }
+                   }
+               }
+            }
+            .desc{
+                padding-bottom:2rem;
+                h1{
+                    font-size:3rem;
+                    font-weight:900;
+
+                }
+            }
+            .form {
+                margin: 0 auto;
+                .formGroup {
+                    display: flex;
+                    flex-direction: column;
+                    padding-bottom:2rem;
+                    
+
+                    label {}
+
+                    .inputGroup {
+                        display: flex;
+                        width: 100%;
+                        position:relative;
+
+                        input {
+                            width: 100%;
+                            padding:1.5rem 2rem;
+                            background-color:var(--background-grey);
+                            border:.3px solid var(--border-grey);
+                            border-radius:.6rem;
+                            color:white;
+                        }
+                        .icon {
+                            position:absolute;
+                            right:2rem;
+                            top:50%;
+                            transform:translateY(-50%);
+                            font-size:2rem;
+                            color:var(--text-grey);
+                        }
+                        .iconF{
+                            cursor:pointer;
+                        }
+                    }
+                    .button{
+                        button{
+                            width:100%;
+                            border-radius:8rem;
+                            padding:1rem;
+                            background-color:green;
+                            border:none;
+                            transition:all .3s ease;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            gap:1rem;
+                            color:white;
+
+                            &:hover{
+                                background-color:rgba(green, .7);
+                                cursor:pointer;
+                            }
+                        }
+                    }
+
+                }
+            }
+
+        }
+        .hrGroup{
+            display:flex;
+            gap:1rem;
+            align-items:center;
+            width:30%;
+            margin:2rem 0 3rem 0;
+
+            @include respond(tab-land){
+                width:40%;
+            }
+            @include respond(tab-port){
+                width:60%;
+            }
+            @include respond(phone){
+                width:80%;
+            }
+            @include respond(sm-phone){
+                width:90%;
+            }
+            span{
+                width:100%;
+                height:.3px;
+                border:.3px solid var(--border-grey);
+                display:inline-block;
+            }
+            .text{
+                font-size:1.6rem;
+            }
+        }
+        .otherSignin{
+            width:30%;
+
+            @include respond(tab-land){
+                width:40%;
+            }
+            @include respond(tab-port){
+                width:60%;
+            }
+            @include respond(phone){
+                width:80%;
+            }
+            @include respond(sm-phone){
+                width:90%;
+            }
+            .google{
+                margin-bottom:2rem;
+                button{
+                    width:100%;
+                    border-radius:8rem;
+                    padding:1rem;
+                    background-color: var(--white);
+                    border:none;
+                    color:black;
+                    font-size:1.6rem;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    gap:2rem;
+                    transition:all .3s ease;
+
+                    .icon{
+                        font-size:2rem;
+                    }
+
+                    &:hover{
+                        cursor:pointer;
+                        color:var(--text-white);
+                    }
+                }
+
+            }
+            .github{
+                button{
+                    width:100%;
+                    border-radius:8rem;
+                    padding:1rem;
+                    background-color: var(--white);
+                    border:none;
+                    color:black;
+                    font-size:1.6rem;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    gap:2rem;
+                    transition:all .3s ease;
+
+                    .icon{
+                        font-size:2rem;
+                        color:black;
+                    }
+                    &:hover{
+                        cursor:pointer;
+                        color:var(--text-white);
+                    }
+                }
+            }
+        }
+
+    }
+}

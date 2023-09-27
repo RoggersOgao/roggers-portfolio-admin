@@ -1,0 +1,22 @@
+@import "../../mixin";
+.container{
+    display:flex;
+    width:100%;
+    min-height:110vh;
+    .left{
+        position:sticky;
+        height: 100vh;
+        z-index:10;
+        width:4rem;
+    }
+    .right{
+
+        width:calc(100% - 4rem);
+        // padding:5rem 0 0 0;
+        height:100%;
+        @include respond(phone){
+            padding: 5rem 0 0 0;
+            // text-align: center;
+        }
+    }
+}

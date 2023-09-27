@@ -1,0 +1,98 @@
+.container{
+    padding:1rem 2rem 2rem 2rem;
+    overflow: hidden;
+    .dropzoneContainer{
+        height:15rem;
+        border: .3px dashed var(--text-grey);
+        border-radius: 1rem;
+        padding:2rem;
+        display:flex;
+        justify-content:center;
+        align-items: center;
+        flex-direction: column;
+        // background-color:var(--background-grey);
+
+        p{
+            color:rgba(131, 132, 131, 0.538);
+            text-align: center;
+            line-height: 1.3rem;
+            font-weight: 900;
+            span{
+                color:var(--blue-color);
+                cursor: pointer;
+            }
+        }
+        i{
+            font-size:6rem;
+            animation: animateDropdown 1s ease-in-out alternate infinite;
+            color:rgba(131, 132, 131, 0.538);
+        }
+
+        @keyframes animateDropdown {
+                from{
+                    transform: translateY(-1rem);
+                }
+                to{
+                    transform: translateY(0);
+                }
+        }
+    }
+
+    .previewContainer{
+        margin-top:4rem;
+        .rejected{
+list-style-type:none;
+transition: all .3s ease-in-out;
+h2{
+    font-weight: 900;
+}
+.rejectCont{
+                padding-top:2rem;
+                width:100%;
+                transition: all 1s ease-in-out;
+                li{
+                    transition: all .3s ease-in-out;
+                    .rejectedContainer{
+                        display:flex;
+                        align-items: top;
+                        justify-content: space-between;
+                        .left{
+                         .file{
+                             .icon{
+                                 font-size:4rem;
+                             }
+                     }
+                     .errors{
+                         p{
+                         }
+                     }
+                        }
+                        .right{
+                            transition: all .3s ease-in-out;
+                            button{
+                                padding:.7rem .9rem;
+                                background-color: var(--green-color);
+                                border:none;
+                                border-radius: 20rem;
+                                font-size:1.2rem;
+                                font-weight: 600;
+                                display: flex;
+                                align-items: center;
+                                color: var(--white);
+                                display:flex;
+                                gap:1rem;
+                                cursor:pointer;
+                                .icon{
+                                    font-size:1.5rem;
+                                    color: var(--white);
+                                }
+                            }
+         
+                        }
+    
+                    }
+                }
+            }
+        }
+    }
+}

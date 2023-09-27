@@ -1,0 +1,80 @@
+@import "../../../mixin";
+
+.container{
+    .account{
+        
+        &Left{
+            
+            .navCont{
+                .top{
+                    background-color:var(--dark-grey);
+                    background-color:var(--border-grey);
+                    display:flex;
+                    gap:1rem;
+                    align-items:center;
+                    padding:.6rem 2rem;
+                    border-radius:1rem 1rem 0 0;
+                    border-bottom:.3px solid var(--green-color);
+                    .icon{
+                        font-size:2rem;
+                    }
+                    p{
+                        font-size:1.2rem;
+                        font-weight:900;
+                    }
+                }
+                .navList{
+                    list-style-type: none;
+                    display:flex;
+                    border-bottom:.3px solid var(--border-grey);
+
+                    @include respond(phone){
+                        flex-direction: column;
+                    }
+                    .navItem{
+                        padding:1rem;
+                        font-size:1.4rem;
+                        font-weight: 900;
+                        display:flex;
+                        gap:.7rem;
+                        align-items: center;
+                        transition: all .3s ease-in-out;
+                        position:relative;
+                        border-bottom:1px solid transparent;
+                        &:not(:last-child){
+                            margin-right:1rem;
+                        }
+                        
+                        &:hover{
+                            // background-color:rgba(8, 250, 0, 0.082);
+                            color:rgb(203, 255, 203);
+                            cursor: pointer;
+                            border-bottom:1px solid grey;
+                        }
+
+                        .icon{
+                            font-size:2.2rem;
+                        }
+                    }
+                    .activeNavItem{
+                        color:rgb(203, 255, 203);
+                        border-bottom:1px solid var(--green-color);
+                        &::after{
+                            content:"";
+                            height:100%;
+                            // border-right: 1px solid var(--green-color);
+                            position:absolute;
+                            right:0;
+                            display:block;
+                        }
+
+                    }
+                }
+            }
+        }
+        &Right{
+            margin-top:5rem;
+            min-height:76rem;
+        }
+    }
+}

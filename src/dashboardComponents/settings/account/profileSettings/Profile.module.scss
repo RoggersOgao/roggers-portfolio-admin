@@ -1,0 +1,370 @@
+@import "../../../../mixin";
+
+.container {
+
+    .profile {
+        display: flex;
+        gap: 2rem;
+
+        .profileForm {
+            flex: 3;
+            background-color: var(--dark-grey);
+            padding: 3rem;
+            border-radius: 1rem;
+
+
+            .profileLeft {
+
+                .cont {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+                    grid-template-rows: auto;
+                    grid-gap: 2rem;
+                }
+
+                .formGroup {
+                    display: flex;
+                    flex-direction: column;
+                    transition: all .4s ease-in-out;
+                    padding: 1rem 0;
+
+                    @include respond(phone) {
+                        width: 100%;
+                    }
+
+
+                    label {
+                        font-size: 1.2rem;
+                        color: rgb(230, 229, 229);
+                        font-weight: 900;
+                        text-transform: uppercase;
+                        padding-bottom: 1rem;
+                    }
+
+                    span {
+                        color: red;
+                        padding-top: .9rem;
+                        font-size: 1.3rem;
+                        display: flex;
+                        align-items: center;
+                        gap: .7rem;
+                        font-weight: 700;
+                    }
+
+
+                    input {
+                        border: none;
+                        background-color: transparent;
+                        border: .3px solid rgba(89, 89, 89, 0.461);
+                        padding: 1.4rem 1rem;
+                        transition: all .4s ease-in-out;
+                        font-family: inherit;
+                        border-radius: 1rem;
+
+                        font-weight: 700;
+                        color: var(--white-variant);
+
+                        &:focus {
+                            outline: none;
+                            border: 1px solid rgb(255, 255, 255);
+                            // margin-top: 2.4rem;
+                        }
+
+                        &::placeholder {
+                            opacity: 1;
+                            font-size: 1.3rem;
+                            color: grey;
+                            padding: .3rem;
+                        }
+
+                        &:focus::placeholder {
+                            opacity: 1;
+                        }
+                    }
+
+                    .button {
+                        button {
+                            padding: 1.4rem 3rem;
+                            font-size: 1.4rem;
+                            font-weight: 600;
+                            border-radius: 10rem;
+                            background-color: var(--green-color);
+                            border: none;
+                            cursor: pointer;
+                            transition: background-color .4s ease-in-out;
+                            color: var(--white);
+
+                            &:hover {
+                                background-color: green;
+                            }
+                        }
+                    }
+                }
+
+                textarea {
+                    border: none;
+                    background-color: transparent;
+                    border: .3px solid rgba(89, 89, 89, 0.461);
+                    min-height: 20rem;
+                    padding: 2rem 1rem;
+                    transition: all .4s ease-in-out;
+                    font-family: inherit;
+                    color: var(--white-variant);
+                    font-weight: 700;
+                    border-radius: 1rem;
+                    font-size: 1.4rem;
+
+
+                    &:focus {
+                        outline: none;
+                        border: 1px solid rgb(255, 255, 255);
+                        // margin-top: 2.4rem;
+                    }
+
+                    &::placeholder {
+                        // opacity: 0;
+                        color: grey;
+                        font-weight: 600;
+                        font-size: 1.3rem;
+                    }
+
+                    &:focus::placeholder {
+                        opacity: 1;
+                    }
+                }
+
+                .dropdownContainer {
+                    display: flex;
+                    flex-direction: column;
+                    position: relative;
+                    transition: all .4s ease-in-out;
+                    padding: 1rem 0;
+
+                    label {
+                        font-size: 1.2rem;
+                        color: rgb(230, 229, 229);
+                        font-weight: 900;
+                        text-transform: uppercase;
+                        padding-bottom: 1rem;
+                    }
+
+                    .dropdown {
+                        button {
+                            width: 100%;
+                            background-color: transparent;
+                            border: .3px solid rgba(89, 89, 89, 0.461);
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 1.5rem;
+                            border-radius: 1rem;
+                            color: var(--white-variant);
+                            font-family: inherit;
+                            font-weight: 700;
+
+                            &:focus {
+                                border: 1px solid rgb(255, 255, 255);
+                            }
+                        }
+
+                        &List {
+                            // display:none;
+                            position: relative;
+
+                            ul {
+                                position: absolute;
+                                top: 1rem;
+                                width: 100%;
+                                list-style-type: none;
+                                background-color: var(--background-grey);
+                                border-radius: 1rem;
+                                overflow: hidden;
+
+                                li {
+
+                                    font-size: 1.3rem;
+                                    font-weight: 700;
+                                    font-family: inherit;
+                                    padding: 1.4rem 1rem;
+
+                                    &:not(:last-child) {
+                                        border-bottom: .3px solid var(--border-grey);
+                                    }
+
+                                    &:hover {
+                                        background-color: rgba(128, 128, 128, 0.275);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        .uploadPhotoContainer {
+            flex: 1;
+            background-color: var(--dark-grey);
+            min-height: 30rem;
+            max-height: 50rem;
+            border-radius: 1rem;
+            position: sticky;
+            top: 10rem;
+
+            .profileRight {
+
+                &Title {
+                    border-bottom: .3px dashed var(--text-grey);
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    h1 {
+                        font-weight: 1000;
+                        font-size: 2.2rem;
+
+                        padding: 2rem 0 1rem 2rem;
+                    }
+
+                    .addButton {
+                        padding: 2rem 2rem 1rem 0;
+
+                        button {
+                            padding: .9rem 1rem;
+                            border: none;
+                            background-color: var(--green-color);
+                            color: var(--white);
+                            border-radius: 9rem;
+                        }
+                    }
+                }
+
+                .profileAvatarContainer {
+
+                    &Top {
+                        display: flex;
+                        padding: 2rem;
+                        align-items: center;
+                        gap: 1rem;
+
+                        &Left {
+                            .imgCont {
+                                width: 6rem;
+                                height: 6rem;
+                                border-radius: 50%;
+                                overflow: hidden;
+
+                                .avatar {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    object-position: center;
+                                }
+                                .loadingUserImage{
+                                    width:100%;
+                                    height:100%;
+                                    background-color: var(--text-white);
+                                    animation: blinking 2s ease-in-out alternate infinite;
+                                }
+                            }
+                        }
+
+                        &Right {
+                            .top {
+                                h3 {
+                                    font-weight: 900;
+                                    font-size: 1.6rem;
+                                }
+                            }
+
+                            .bottom {
+                                display: flex;
+                                gap: 1rem;
+                                padding: .4rem 0;
+
+                                .btn1 {
+                                    width: 5rem;
+                                    height: 1.5rem;
+                                    border-radius: .4rem;
+                                    background-color: var(--blue-color);
+                                    animation: blinking 2s ease-in-out alternate infinite;
+                                }
+
+                                .btn2 {
+                                    width: 5rem;
+                                    height: 1.5rem;
+                                    border-radius: .4rem;
+                                    background-color: red;
+                                    animation: blinking 2s ease-in-out alternate infinite;
+                                }
+
+                                button {
+                                    background-color: transparent;
+                                    border: none;
+                                    color: var(--white);
+                                    font-weight: 700;
+                                    font-size: 1.2rem;
+                                    border-bottom: .3px solid transparent;
+
+                                    &:hover {
+                                        cursor: pointer;
+                                    }
+                                }
+
+                                .button1 {
+                                    button:disabled{
+                                        color:grey;
+                                        &:hover {
+                                            border-bottom: .3px solid rgb(64, 64, 64);
+                                        }
+                                    }
+                                    button {
+                                        transition: all .3s ease;
+                                        color: var(--blue-color);
+
+                                        &:hover {
+                                            border-bottom: .3px solid var(--blue-color);
+                                        }
+
+                                    }
+                                }
+
+                                .button2 {
+                                    button:disabled{
+                                        color:grey;
+                                        &:hover {
+                                            border-bottom: .3px solid rgb(64, 64, 64);
+                                        }
+                                    }
+                                    button {
+                                        transition: all .3s ease;
+                                        color: Red;
+
+                                        &:hover {
+                                            border-bottom: .3px solid red;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@keyframes blinking {
+    0% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.2;
+    }
+}

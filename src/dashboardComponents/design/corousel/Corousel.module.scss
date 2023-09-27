@@ -1,0 +1,116 @@
+@import "../../../mixin";
+
+.container {
+    position: relative;
+    height: 100%;
+    width: 90%;
+    padding-left: 4rem;
+    margin: 0 auto;
+    margin-top: 3rem;
+
+
+    .content {
+        &Left {
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: column;
+            align-items: center;
+            width: 45%;
+            margin: 0 auto;
+            min-height: 100vh;
+
+            .profile {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+                margin-bottom: 2rem;
+
+                &Left {
+                    .img {
+                        width: 4rem;
+                        height: 4rem;
+                        object-fit: cover;
+                        border-radius: 50%;
+                    }
+                }
+
+                &Right {
+                    &Title {
+                        padding: 0 0 .5rem 0;
+
+                        h1 {
+                            font-size: 1.8rem;
+                            color: white;
+                            font-weight: 1000;
+                        }
+                    }
+
+                    .name {
+                        p {
+                            font-size: 1.3rem;
+                            font-weight: 700;
+                            color: grey;
+                        }
+                    }
+                }
+            }
+
+            flex:12;
+
+            .imgCont {
+                width: 100;
+                border-radius: 2rem;
+                max-height: 72rem;
+                overflow: hidden;
+
+                .img {
+                    width: 100%;
+                    height:auto;
+                }
+            }
+
+            .carouselNnav {
+                button {
+
+                    position: absolute;
+                    top: 33rem;
+                    width: 5rem;
+                    height: 5rem;
+                    border-radius: 50%;
+                    border: .3px solid var(--green-color);
+                    background-color: transparent;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    &:hover {
+                        background-color: rgba(128, 128, 128, 0.112);
+                        cursor: pointer;
+                    }
+                }
+
+                .prev {
+                    left: 15%;
+
+                    .leftIcon {
+                        color: white;
+                        transform: rotate(-226deg);
+                    }
+
+
+                }
+
+                .next {
+                    right: 15%;
+
+                    .rightIcon {
+                        color: white;
+                        transform: rotate(315deg);
+                    }
+                }
+            }
+        }
+
+
+    }
+}

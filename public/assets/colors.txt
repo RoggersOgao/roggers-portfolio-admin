@@ -1,0 +1,6 @@
+#676767 - text-grey
+#32C109 - green-color
+#9C92C7 - purple color
+#303030 - border-grey
+#232323 - background-text-grey
+#1E1E1E -background-grey

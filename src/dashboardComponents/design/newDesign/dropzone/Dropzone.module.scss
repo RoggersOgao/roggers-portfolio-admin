@@ -1,0 +1,150 @@
+.container{
+    .dropzoneContainer{
+        height:15rem;
+        border: .3px dashed var(--border-grey);
+        display:flex;
+        justify-content:center;
+        align-items: center;
+        flex-direction: column;
+        background-color:var(--background-grey);
+
+        p{
+            color:rgba(131, 132, 131, 0.538);
+        }
+        i{
+            font-size:6rem;
+            animation: animateDropdown 1s ease-in-out alternate infinite;
+            color:rgba(131, 132, 131, 0.538);
+        }
+
+        @keyframes animateDropdown {
+                from{
+                    transform: translateY(-1rem);
+                }
+                to{
+                    transform: translateY(0);
+                }
+        }
+    }
+
+    .previewContainer{
+        margin-top:4rem;
+        .accepted{
+            display:flex;
+            gap:1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            list-style-type: none;
+            padding-bottom:2rem;
+            .prev{
+                li{
+                    width:40rem;
+                    height:30rem;
+                    border:.3px solid rgba(255, 255, 255, 0.035);
+                    border-radius: 0 0 1rem 1rem;
+                    .uploadedContent{
+                        position:relative;
+                        z-index:3;
+                        .close{
+                            position:absolute;
+                            right:-.5rem;
+                            top:-.5rem;
+                            font-size:1.8rem;
+                            z-index:2;
+                            transition:all .3s ease-in-out;
+
+                            &:hover{
+                                transform: scale(1.1);
+                                color:var(--green-color);
+                                cursor:pointer;
+                            }
+                        }
+                        &Img{
+                            width:100%;
+                            z-index:1;
+                            .prevImg{
+                                width:100%;
+                                height:23rem;
+                                object-fit:cover;
+                                object-position: top;
+                            }
+                        }
+                        &Desc{
+                            padding:.3rem;
+                            .type{
+                                display:flex;
+                                justify-content: space-between;
+                                p{
+                                    padding:.3rem 1rem;
+                                    border-radius:3rem;
+                                    border:.1px solid rgba(108, 108, 108, 0.211);
+                                }
+                            }
+                            .name{
+                                font-size:1.1rem;
+                                font-weight:600;
+                                padding:1rem .3rem;
+                                color:var(--text-white);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+        .rejected{
+list-style-type:none;
+transition: all .3s ease-in-out;
+h2{
+    font-weight: 900;
+}
+.rejectCont{
+                padding-top:2rem;
+                width:100%;
+                transition: all 1s ease-in-out;
+                li{
+                    transition: all .3s ease-in-out;
+                    .rejectedContainer{
+                        display:flex;
+                        align-items: top;
+                        justify-content: space-between;
+                        .left{
+                         .file{
+                             .icon{
+                                 font-size:4rem;
+                             }
+                     }
+                     .errors{
+                         p{
+                         }
+                     }
+                        }
+                        .right{
+                            transition: all .3s ease-in-out;
+                            button{
+                                padding:.7rem .9rem;
+                                background-color: var(--green-color);
+                                border:none;
+                                border-radius: 20rem;
+                                font-size:1.2rem;
+                                font-weight: 600;
+                                display: flex;
+                                align-items: center;
+                                color: var(--white);
+                                display:flex;
+                                gap:1rem;
+                                cursor:pointer;
+                                .icon{
+                                    font-size:1.5rem;
+                                    color: var(--white);
+                                }
+                            }
+         
+                        }
+    
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,54 @@
+.container{
+    // position:relative;
+    height:100%;
+    width:90%;
+    padding-left:4rem;
+    margin:0 auto;
+    
+    .content{
+        &Left{
+            .profile{
+                display:flex;
+                gap:1rem;
+                align-items: center;
+                margin-bottom:2rem;
+
+                &Left{
+                    .img{
+                        width:4rem;
+                        height:4rem;
+                        object-fit:cover;
+                        border-radius: 50%;
+                    }
+                }
+                &Right{
+                    &Title{
+                        padding:0 0 .5rem 0;
+                       h1{
+                        font-size:1.8rem;
+                        color: var(--white);
+                        font-weight:1000;
+                       }
+                    }
+                    .name{
+                        p{
+                            font-size:1.3rem;
+                            font-weight:700;
+                            color:var(--text-white);
+                        }
+                    }
+                }
+            }
+            flex:12;
+            .imgCont{
+                .img{
+                    width:100%;
+                    height:auto;
+                }
+            }
+        }
+        &Right{
+            // flex:1;
+        }
+    }
+}

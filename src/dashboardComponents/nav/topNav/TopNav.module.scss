@@ -1,0 +1,70 @@
+@import "../../../mixin";
+
+.container {
+    background-color: var(--background-grey);
+    box-shadow: 0 3px 15px -2px rgb(19, 19, 19);
+    border-bottom:.3px solid rgba(85, 255, 0, 0.763);
+    padding: 0 2rem;
+   
+
+    .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 4rem;
+        width:100%;
+
+
+
+        &Left {
+            .logo {
+                width: 5rem;
+                height: auto;
+            }
+        }
+
+        &Right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+
+            .logout {
+                button {
+                    background-color: transparent;
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    border: none;
+
+                }
+            }
+
+            .profile {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+
+                .name {
+                    p {
+                        font-size: 1.3rem;
+                        font-weight: 1000;
+                        color: white;
+                    }
+                }
+
+                .image {
+                    width: 3rem;
+                    height: 3rem;
+                    overflow: hidden;
+                    border-radius: 50%;
+
+                    .profile {
+                        width: 100%;
+                        background-size: cover;
+                        background-position: center;
+                    }
+                }
+            }
+        }
+    }
+}
