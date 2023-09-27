@@ -10,7 +10,13 @@ import NewDesign from "@/dashboardComponents/design/newDesign/NewDesign";
 export default async function Page(){
     
     const session = await getServerSession(options)
-    
+    const delay = (delaryInms) => {
+        return new Promise((resolve) => setTimeout(resolve, delaryInms));
+      };
+      if (!session) {
+        delay(4000);
+        redirect("/");
+      }
     return session ? (
         <div className={styles.container}>
             <div className={styles.design}>

@@ -95,7 +95,9 @@ async function uploadPhotosToCloudinary(newFiles) {
     throw error;
   }
 }
-
+const delay = (delaryInms) => {
+  return new Promise((resolve) => setTimeout(resolve, delaryInms));
+};
 export const uploadDesign = async (formData) => {
   try {
     const newFiles = await uploadPhotoToLocalStorage(formData);
@@ -105,19 +107,24 @@ export const uploadDesign = async (formData) => {
       design: photo[0],
       description: formData.get("description"),
     };
-
+    delay(2000)
     try {
       const response = await designAxios.post("/api/design", designData);
-      if (response.status == 200) {
+      if (response.status === 200) {
         return { status: response.status, data: response.data };
+      } else {
+        return { status: response.status, error: response.data };
       }
     } catch (error) {
-      console.error("Upload error:");
+      console.error(error);
+      return { status: 500, error: "Internal Server Error" };
     }
   } catch (err) {
     console.error(err);
+    return { status: 500, error: "Internal Server Error" };
   }
 };
+
 
 export const updateDesign = async (
   id,
