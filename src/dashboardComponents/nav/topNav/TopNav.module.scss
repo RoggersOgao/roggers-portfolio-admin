@@ -1,9 +1,12 @@
 @import "../../../mixin";
 
 .loadingContainer{
-    width:100%;
-    background-color: var(--background-text-grey);
-    animation: blink 1s ease-in-out alternate infinite;
+    background-color: var(--background-grey);
+    box-shadow: 0 3px 15px -2px rgb(19, 19, 19);
+    border-bottom:.3px solid rgba(85, 255, 0, 0.763);
+    padding: 0 2rem;
+    animation: blink 1s ease-in-out infinite alternate;
+   
 }
 
 @keyframes blink {

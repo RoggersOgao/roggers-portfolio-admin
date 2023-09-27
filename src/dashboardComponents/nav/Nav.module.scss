@@ -9,15 +9,7 @@
 }
 .loadingContainer{
     width:100%;
-    background-color: var(--background-text-grey);
-    animation: blink 1s ease-in-out alternate infinite;
-}
-
-@keyframes blink {
-    from{
-        opacity:.3;
-    }
-    to{
-        opacity: .8;
-    }
+    position: sticky;
+    top:0;
+    z-index:10;  
 }
