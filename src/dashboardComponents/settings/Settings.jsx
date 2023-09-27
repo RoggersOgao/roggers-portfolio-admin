@@ -21,6 +21,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { VscError } from "react-icons/vsc";
 import CircularBar from "../spinners/circularSpinner/CircularBar";
 import { AddNewUser } from "../contexts/settingsContext/settingsActions";
+import { useRouter } from "next/navigation";
+
 const renderLocationCompany = (info) => (
   <>
     <div className={styles.location}>
@@ -60,6 +62,12 @@ function Settings({session}) {
   const [isLoading, setIsLoading] = useState(false);
   const roleRef = useRef();
   const addUserContainerRef = useRef();
+  const router = useRouter()
+  
+  useEffect(() => {
+    router.refresh();
+  }, [router.refresh]);
+  
 
   const setField = (field, value) => {
     setForm({

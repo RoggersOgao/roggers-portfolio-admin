@@ -33,7 +33,7 @@ export default async function Page() {
       <div className={styles.container}>
         <div className={styles.right}>
           <Suspense fallback="loading...">
-          <Home combinedUsers={combinedUsers} numGoogleUsers={numGoogleUsers} numGithubUsers={numGithubUsers} combinedUsersForCalendar={combinedUsersForCalendar} designs={designs} projects={projects}/>
+          <Home combinedUsers={combinedUsers} numGoogleUsers={numGoogleUsers} numGithubUsers={numGithubUsers} combinedUsersForCalendar={combinedUsersForCalendar} designs={designs} projects={projects} session={session}/>
           </Suspense>
         </div>
       </div>
