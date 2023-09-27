@@ -14,7 +14,14 @@ export const metadata = {
 };
 
 export default async function page() {
+  try{
   const session = await getServerSession(options);
+  setTimeout(() => {
+    redirect("/");
+  }, 4000); 
+} catch (error) {
+  // Handle errors from getSession here
+}
   const design = await fetchDesign();
 
   return session ? (

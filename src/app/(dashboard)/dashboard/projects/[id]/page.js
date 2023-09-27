@@ -7,7 +7,14 @@ import { fetchProjectById } from "@/dashboardComponents/contexts/projectContext/
 import EditProjectForm from "@/dashboardComponents/projects/editProjectForm/EditProjectForm";
 
 export default async function Page({params}){
+    try{
     const session = await getServerSession(options)
+    setTimeout(() => {
+        redirect("/");
+      }, 4000); 
+    } catch (error) {
+      // Handle errors from getSession here
+    }
 
     const singleProject = await fetchProjectById(params.id)
 

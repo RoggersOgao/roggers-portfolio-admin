@@ -12,7 +12,18 @@ export const metadata = {
   }
   
 export default async function Page(){
+    try{
     const session = await getServerSession(options)
+
+    setTimeout(() => {
+        // Use your preferred method of redirection, for example, React Router
+        // This assumes you are using React Router, so make sure to import it.
+        // Replace '/login' with the actual path you want to redirect to.
+        redirect("/");
+      }, 4000); // 8000 milliseconds = 8 seconds
+    } catch (error) {
+      // Handle errors from getSession here
+    }
     return session ? (
         <div className={styles.container}>
             <div className={styles.right}>

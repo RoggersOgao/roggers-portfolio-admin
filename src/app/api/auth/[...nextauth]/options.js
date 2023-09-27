@@ -282,7 +282,6 @@ export const options = {
             const pduser = await cruser.data.users;
             if (pduser) {
               const updatedUserData = {
-                ...pduser,
                 name: user.name,
                 email: user.email,
                 image: user.image,

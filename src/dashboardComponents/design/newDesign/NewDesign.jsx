@@ -24,8 +24,7 @@ function NewDesign({session}) {
   const formRef = useRef();
   const selectRef = useRef(null);
   const router = useRouter();
-
-
+  
   const setField = (value, field) => {
     setForm({
       ...form,

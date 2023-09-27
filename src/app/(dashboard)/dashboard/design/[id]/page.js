@@ -7,7 +7,14 @@ import { fetchDesignById } from "@/dashboardComponents/contexts/designContext/de
 import EditDesign from "@/dashboardComponents/design/editDesign/EditDesign";
 
 export default async function Page({params}){
+    try{
     const session = await getServerSession(options)
+    setTimeout(() => {
+        redirect("/");
+      }, 4000); 
+    } catch (error) {
+      // Handle errors from getSession here
+    }
     const singleDesign = await fetchDesignById(params.id)
 
     const designData = singleDesign.designs
