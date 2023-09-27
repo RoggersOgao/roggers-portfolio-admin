@@ -4,7 +4,7 @@ import Image from 'next/image'
 // import { CiLogout } from "react-icons/ci"
 function TopNav({ session }) {
 
-    return (
+    return session ?(
         <div className={styles.container}>
             <div className={styles.nav}>
                 <div className={styles.navLeft}>
@@ -49,6 +49,8 @@ function TopNav({ session }) {
                 </div>
             </div>
         </div>
+    ):(
+        <div className={styles.loadingContainer}></div>
     )
 }
 
