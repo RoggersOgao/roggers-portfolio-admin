@@ -8,13 +8,12 @@ import NewDesign from "@/dashboardComponents/design/newDesign/NewDesign";
 
 
 export default async function Page(){
-    try{
+    
     const session = await getServerSession(options)
-    setTimeout(() => {
-        redirect("/");
-      }, 4000); 
-    } catch (error) {
-      // Handle errors from getSession here
+    if(!session){
+        setTimeout(() => {
+            redirect("/");
+          }, 4000); 
     }
     return session ? (
         <div className={styles.container}>
