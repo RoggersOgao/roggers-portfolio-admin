@@ -17,11 +17,14 @@ import { Suspense } from "react";
 
 export default async function Page() {
     const session = await getServerSession(options);
-    if(!session){
-      setTimeout(() => {
-          redirect("/");
-        }, 4000); 
-  }
+    const delay = (delaryInms) => {
+      return new Promise((resolve) => setTimeout(resolve, delaryInms));
+    };
+    if (!session) {
+      delay(4000);
+      redirect("/");
+    }
+   
   // Function to count users for a specific year
   const crUsers = fetchUser();
   const gbUsers = fetchGithubUsers();

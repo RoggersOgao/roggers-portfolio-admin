@@ -290,17 +290,14 @@ export const options = {
                 role: user.role,
               };
 
-              // creating a $set update operation to update only te speicifeid field
-
-              const updateOperation = { $set: updatedUserData };
               try {
                 const response = await axios.put(
                   `${process.env.API_URL}/api/users?email=${user.email}`,
-                  updateOperation
+                  updatedUserData
                 );
                 return true;
               } catch (err) {
-                // console.log(err.response.data.details);
+                console.log(err.response.data.details);
               }
             }
           } catch (err) {

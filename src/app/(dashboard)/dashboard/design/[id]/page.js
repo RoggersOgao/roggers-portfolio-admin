@@ -9,11 +9,13 @@ import EditDesign from "@/dashboardComponents/design/editDesign/EditDesign";
 export default async function Page({params}){
     
     const session = await getServerSession(options)
-    if(!session){
-        setTimeout(() => {
-            redirect("/");
-          }, 4000); 
-    }
+    const delay = (delaryInms) => {
+        return new Promise((resolve) => setTimeout(resolve, delaryInms));
+      };
+      if (!session) {
+        delay(4000);
+        redirect("/");
+      }
     
     const singleDesign = await fetchDesignById(params.id)
 

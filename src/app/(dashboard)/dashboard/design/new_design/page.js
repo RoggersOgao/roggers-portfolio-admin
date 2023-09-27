@@ -10,11 +10,7 @@ import NewDesign from "@/dashboardComponents/design/newDesign/NewDesign";
 export default async function Page(){
     
     const session = await getServerSession(options)
-    if(!session){
-        setTimeout(() => {
-            redirect("/");
-          }, 4000); 
-    }
+    
     return session ? (
         <div className={styles.container}>
             <div className={styles.design}>
