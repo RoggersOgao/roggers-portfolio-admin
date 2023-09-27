@@ -4,12 +4,9 @@ import styles from "./Project.module.scss";
 import Card from "./card/Card";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 
-
-function Project({ project }) {
+function Project({ project, session }) {
   const router = useRouter();
-  const { data: session } = useSession()
 
   useEffect(() => {
     router.refresh();
@@ -37,7 +34,7 @@ function Project({ project }) {
           <div className={styles.card}>
             {project?.projects?.map((item, index) => (
               <div key={index}>
-                <Card project={item} id={index}/>
+                <Card project={item} id={index} />
               </div>
             ))}
           </div>

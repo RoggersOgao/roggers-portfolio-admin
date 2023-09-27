@@ -18,10 +18,8 @@ import {
 import { deleteDesign } from "../contexts/designContext/designActions";
 import { Tooltip } from "react-tippy";
 import "react-tippy/dist/tippy.css";
-import { useSession } from "next-auth/react";
 
-function Design({ designs }) {
-  const {data: session } = useSession()
+function Design({ designs, session }) {
   const { dispatch } = useContext(DesignContext);
   const [actionsVisible, setActionsVisible] = useState(false);
   const desgn = designs.designs;

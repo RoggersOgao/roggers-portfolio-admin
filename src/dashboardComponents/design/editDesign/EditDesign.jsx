@@ -1,23 +1,17 @@
 "use client";
-import React, { useState, useRef, useContext, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./EditDesign.module.scss"
 import Dropzone from "./dropzone/Dropzone";
 import { AnimatePresence, motion } from "framer-motion";
 import { VscError } from "react-icons/vsc";
-import { PiSpinnerLight } from "react-icons/pi";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
-import { updateDesign, uploadDesign } from "@/dashboardComponents/contexts/designContext/designActions";
-import DesignContext from "@/dashboardComponents/contexts/designContext/DesignContext";
-import { AddDesign } from "@/dashboardComponents/contexts/designContext/dispatchDesignActions";
+import { updateDesign} from "@/dashboardComponents/contexts/designContext/designActions";
 import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
-import { useSession } from "next-auth/react";
 
-function EditDesign({designData}) {
-  const { data: session } = useSession()
-  const { state, dispatch} = useContext(DesignContext)
+function EditDesign({designData, session}) {
   const [form, setForm] = useState({});
   const [displayFiles, setDisplayFiles] = useState([]);
   const [files, setFiles] = useState([]);

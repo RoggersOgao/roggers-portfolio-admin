@@ -17,7 +17,7 @@ export default async function Page(){
         <div className={styles.container}>
             <div className={styles.project}>
             <Suspense fallback="loading...">
-                <NewProjectForm />
+                <NewProjectForm session={session}/>
             </Suspense>
             </div>
         </div>

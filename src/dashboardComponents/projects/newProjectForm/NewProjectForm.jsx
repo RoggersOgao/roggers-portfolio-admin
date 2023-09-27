@@ -14,17 +14,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
-import { useSession } from "next-auth/react"
 
 const animatedComponents = makeAnimated();
 
-function NewProjectForm() {
+function NewProjectForm({session}) {
   const [form, setForm] = useState({});
   const [files, setFiles] = useState([]);
   const [techl, setTechl] = useState([]);
   const [formErrors, setFormErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const { data: session } = useSession()
 
   const formRef = useRef();
   const selectRef = useRef(null);

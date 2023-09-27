@@ -18,12 +18,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GiConsoleController } from "react-icons/gi";
 import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
-import { useSession } from "next-auth/react";
+
 const animatedComponents = makeAnimated();
 
-function EditProjectForm({ projectData }) {
+function EditProjectForm({ projectData, session }) {
   const [form, setForm] = useState({});
-  const { data: session } = useSession()
   const [files, setFiles] = useState([]);
   const [displayFiles, setDisplayFiles] = useState([]);
   const [formErrors, setFormErrors] = useState({});

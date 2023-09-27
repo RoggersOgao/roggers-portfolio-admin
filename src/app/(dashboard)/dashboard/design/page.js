@@ -26,7 +26,7 @@ export default async function page() {
       <CarouselCont />
       <div className={styles.right}>
         <Suspense fallback="loading...">
-          <Design designs={design}/>
+          <Design designs={design} session={session}/>
         </Suspense>
       </div>
     </div>

@@ -21,7 +21,7 @@ export default async function Page(){
         <div className={styles.container}>
             <div className={styles.right}>
             <Suspense fallback="loading...">
-                <Settings />
+                <Settings session={session}/>
             </Suspense>
             </div>
         </div>

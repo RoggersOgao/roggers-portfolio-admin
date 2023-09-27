@@ -13,16 +13,9 @@ import { uploadDesign } from "@/dashboardComponents/contexts/designContext/desig
 import DesignContext from "@/dashboardComponents/contexts/designContext/DesignContext";
 import { AddDesign } from "@/dashboardComponents/contexts/designContext/dispatchDesignActions";
 import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
-import { useSession } from "next-auth/react";
 
-function NewDesign() {
+function NewDesign({session}) {
   const { state, dispatch} = useContext(DesignContext)
-    const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect('/')
-    }
-  })
   const [form, setForm] = useState({});
   const [files, setFiles] = useState([]);
   const [formErrors, setFormErrors] = useState({});

@@ -20,7 +20,7 @@ export default async function Page({params}){
         <div className={styles.container}>
             <div className={styles.project}>
             <Suspense fallback="loading...">
-                <EditProjectForm projectData={projectData}/>
+                <EditProjectForm projectData={projectData} session={session}/>
             </Suspense>
             </div>
         </div>

@@ -12,7 +12,6 @@ import {
   BiLogoTwitter,
 } from "react-icons/bi";
 import Account from "./account/Account";
-import { useSession } from "next-auth/react";
 import { PiCaretUpDownBold } from "react-icons/pi";
 import { motion, AnimatePresence } from "framer-motion";
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -53,9 +52,8 @@ const renderLocationCompany = (info) => (
   </>
 );
 
-function Settings() {
+function Settings({session}) {
   const { state, dispatch } = useContext(SettingsContext);
-  const { data: session } = useSession();
   const [roleDropdownActive, setRoleDropdownActive] = useState(false);
   const [form, setForm] = useState({});
   const [formErrors, setFormErrors] = useState({});
