@@ -206,7 +206,7 @@ export const options = {
                   throw new Error(err.response.data.details);
                 }
               } catch (err) {
-                throw new Error(err.message);
+                // throw new Error(err.message);
               }
               // Handle the case when the user is not found in your API
             } else {
@@ -263,7 +263,7 @@ export const options = {
                   newUser
                 );
               } catch (err) {
-                throw new Error(err.message);
+                // throw new Error(err.message);
               }
               // Handle the case when the user is not found in your API
             } else {
@@ -301,7 +301,7 @@ export const options = {
                 );
                 return true;
               } catch (err) {
-                throw new Error(err.response.data.details);
+                // console.log(err.response.data.details);
               }
             }
           } catch (err) {
