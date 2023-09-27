@@ -11,7 +11,7 @@ async function Nav() {
         <div className={styles.container}>
             <TopNav session={session}  />
         </div>
-    ): null
+    ): <div className={styles.loadingContainer}></div>
 }
 
 export default Nav
