@@ -1,5 +1,11 @@
 import axios from "axios"
 
+const settingsAxios= axios.create({
+  baseURL:process.env.API_URL,
+  headers:{
+    'content-type': 'application/x-www-form-urlencoded',
+  }
+})
 
 
 
@@ -24,7 +30,7 @@ export async function updateUserWithoutImage(id, form) {
   };
 
   try{
-    const response = await axios.put(`${process.env.API_URL}/api/users?id=${id}`, formUpload)
+    const response = await settingsAxios.put(`/api/users?id=${id}`, formUpload)
     return response
   }catch(error){
     return error
@@ -34,7 +40,7 @@ export async function updateUserWithoutImage(id, form) {
 export async function AddNewUser (form){
 
   try{
-      const response = await axios.post(`${process.env.API_URL}/api/auth/signup`, form)
+      const response = await settingsAxios.post(`/api/auth/signup`, form)
       if(response.status === 200){
         return response.data
       }
