@@ -30,8 +30,20 @@ export async function updateUserWithoutImage(id, form) {
   };
 
   try{
-    const response = await settingsAxios.put(`/api/users?id=${id}`, formUpload)
-    return response
+    const response = await fetch(`${process.env.API_URL}/api/users?id=${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formUpload),
+    });
+    
+    if (response.ok) {
+      return response;
+    } else {
+      throw new Error(`Failed to fetch: ${response.status} - ${response.statusText}`);
+    }
+    
   }catch(error){
     return error
   }
@@ -40,10 +52,21 @@ export async function updateUserWithoutImage(id, form) {
 export async function AddNewUser (form){
 
   try{
-      const response = await settingsAxios.post(`/api/auth/signup`, form)
-      if(response.status === 200){
-        return response.data
-      }
+    const response = await fetch(`${process.env.API_URL}/api/auth/signup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form),
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error(`Failed to fetch: ${response.status} - ${response.statusText}`);
+    }
+    
   }catch(err){
     return err.message
   }
