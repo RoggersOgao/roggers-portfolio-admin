@@ -1,9 +1,7 @@
 import axios from "axios"
 
 
-const profileAxios = axios.create({
-  baseURL: process.env.API_URL
-})
+
 
 export async function updateUserWithoutImage(id, form) {
 
@@ -26,7 +24,7 @@ export async function updateUserWithoutImage(id, form) {
   };
 
   try{
-    const response = await profileAxios.put(`/api/users?id=${id}`, formUpload)
+    const response = await axios.put(`${process.env.API_URL}/api/users?id=${id}`, formUpload)
     return response
   }catch(error){
     return error
@@ -36,7 +34,7 @@ export async function updateUserWithoutImage(id, form) {
 export async function AddNewUser (form){
 
   try{
-      const response = await profileAxios.post("/api/auth/signup", form)
+      const response = await axios.post(`${process.env.API_URL}/api/auth/signup`, form)
       if(response.status === 200){
         return response.data
       }

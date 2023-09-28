@@ -10,10 +10,6 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 // import { revalidatePath } from "next/cache";
 
-const designAxios = axios.create({
-  baseURL: process.env.API_URL,
-});
-
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
@@ -110,7 +106,7 @@ export const uploadDesign = async (formData) => {
 
   // Use axios concurrency feature to send POST request
     const [response] = await Promise.all([
-      designAxios.post("/api/design", designData),
+      axios.post(`${process.env.API_URL}/api/design`, designData),
     ]);
 
     if (response.status === 200) {
@@ -152,8 +148,8 @@ export const updateDesign = async (
     };
 
     try {
-      const response = await designAxios.put(
-        `/api/design?id=${id}`,
+      const response = await axios.put(
+        `${process.env.API_URL}/api/design?id=${id}`,
         designData
       );
       if (response.status == 200) {
@@ -176,7 +172,7 @@ export async function deleteDesign(
   try{
     cloudinary.v2.uploader.destroy(design_public_id)
 
-    const response = await designAxios.delete(`/api/design?id=${id}`)
+    const response = await axios.delete(`${process.env.API_URL}/api/design?id=${id}`)
     revalidatePath("/")
     if (response.status === 200) {
       return { message: response.data.message };

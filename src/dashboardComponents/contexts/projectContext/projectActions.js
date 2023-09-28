@@ -11,10 +11,6 @@ import { revalidatePath } from "next/cache";
 
 import axios from "axios";
 
-const proj = axios.create({
-  baseURL: process.env.API_URL,
-});
-
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
@@ -122,7 +118,7 @@ export const uploadData = async (formData) => {
     };
 
     try {
-      const response = await proj.post("/api/project", projectData);
+      const response = await axios.post(`${process.env.API_URL}/api/project`, projectData);
       if (response.status === 200) {
         return { data: response.data, status: response.status };
       }
@@ -185,7 +181,7 @@ export const updateProject = async (
     };
     // update the project in the database
     try {
-      const response = await proj.put(`/api/project?id=${id}`, projectData);
+      const response = await axios.put(`${process.env.API_URL}/api/project?id=${id}`, projectData);
       if (response.status === 200) {
         return { data: response.data, status: response.status };
       }
@@ -206,7 +202,7 @@ export async function deleteProject(
   try {
     cloudinary.v2.uploader.destroy(coverPhoto_public_id);
     cloudinary.v2.uploader.destroy(projectPhoto_public_id);
-    const response = await proj.delete(`/api/project?id=${id}`);
+    const response = await axios.delete(`${process.env.API_URL}/api/project?id=${id}`);
     revalidatePath("/");
     if (response.status === 200) {
       return { msg: response.data };
