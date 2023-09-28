@@ -1,14 +1,5 @@
 import axios from "axios"
 
-const settingsAxios= axios.create({
-  baseURL:process.env.API_URL,
-  headers:{
-    'content-type': 'application/x-www-form-urlencoded',
-  }
-})
-
-
-
 export async function updateUserWithoutImage(id, form) {
 
   const formUpload = {
@@ -52,7 +43,7 @@ export async function updateUserWithoutImage(id, form) {
 export async function AddNewUser (form){
 
   try{
-    const response = await fetch(`${process.env.API_URL}/api/auth/signup`, {
+    const response = await fetch(`https://roggers-portfolio-api.vercel.app/api/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
