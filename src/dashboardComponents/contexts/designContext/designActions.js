@@ -107,18 +107,19 @@ export const uploadDesign = async (formData) => {
       design: photo[0],
       description: formData.get("description"),
     };
-    delay(2000)
-    try {
-      const response = await designAxios.post("/api/design", designData);
-      if (response.status === 200) {
-        return { status: response.status, data: response.data };
-      } else {
-        return { status: response.status, error: response.data };
-      }
-    } catch (error) {
-      console.error(error);
-      return { status: 500, error: "Internal Server Error" };
+
+  // Use axios concurrency feature to send POST request
+    const [response] = await Promise.all([
+      designAxios.post("/api/design", designData),
+    ]);
+
+    if (response.status === 200) {
+      return { status: response.status, data: response.data };
+    } else {
+      console.error("POST request failed with status:", response.status);
+      return { status: response.status, error: response.data };
     }
+    
   } catch (err) {
     console.error(err);
     return { status: 500, error: "Internal Server Error" };
