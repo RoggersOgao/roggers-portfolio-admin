@@ -1,4 +1,11 @@
+"use server";
+
 import axios from "axios"
+
+
+const profileAxios = axios.create({
+  baseURL: "http://localhost:3001"
+})
 
 export async function updateUserWithoutImage(id, form) {
 
@@ -21,43 +28,20 @@ export async function updateUserWithoutImage(id, form) {
   };
 
   try{
-    const response = await fetch(`${process.env.API_URL}/api/users?id=${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formUpload),
-    });
-    
-    if (response.ok) {
-      return response;
-    } else {
-      throw new Error(`Failed to fetch: ${response.status} - ${response.statusText}`);
-    }
-    
+    const response = await profileAxios.put(`/api/users?id=${id}`, formUpload)
+    return response
   }catch(error){
-    return error
+    console.log(err)
   }
 }
 
 export async function AddNewUser (form){
 
   try{
-    const response = await fetch(`https://roggers-portfolio-api.vercel.app/api/auth/signup`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form),
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    } else {
-      throw new Error(`Failed to fetch: ${response.status} - ${response.statusText}`);
-    }
-    
+      const response = await profileAxios.post("/api/auth/signup", form)
+      if(response.status === 200){
+        return response.data
+      }
   }catch(err){
     return err.message
   }

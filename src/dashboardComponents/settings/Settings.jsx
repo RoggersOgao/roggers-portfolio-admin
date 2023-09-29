@@ -21,8 +21,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { VscError } from "react-icons/vsc";
 import CircularBar from "../spinners/circularSpinner/CircularBar";
 import { AddNewUser } from "../contexts/settingsContext/settingsActions";
-import { useRouter } from "next/navigation";
-
 const renderLocationCompany = (info) => (
   <>
     <div className={styles.location}>
@@ -62,12 +60,6 @@ function Settings({session}) {
   const [isLoading, setIsLoading] = useState(false);
   const roleRef = useRef();
   const addUserContainerRef = useRef();
-  const router = useRouter()
-  
-  useEffect(() => {
-    router.refresh();
-  }, [router.refresh]);
-  
 
   const setField = (field, value) => {
     setForm({
@@ -103,7 +95,7 @@ function Settings({session}) {
       document.removeEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = 'auto';   // Clean up when unmounting
     };
-  }, [state.isVisible]);
+  }, []);
   // updating the form field role
   const handleActiveRole = (name) => {
     setField("role", name);
@@ -185,6 +177,7 @@ function Settings({session}) {
         theme: "dark",
       });
     }catch(err){
+      console.log(err)
   toast.success(err.message, {
         position: "top-right",
         autoClose: 5000,
@@ -563,7 +556,7 @@ function Settings({session}) {
         <div className={styles.accountSettingsTitle}>
           <h1>Account settings</h1>
         </div>
-        <Account session={session} />
+        <Account session={session}/>
       </div>
     </div>
   );

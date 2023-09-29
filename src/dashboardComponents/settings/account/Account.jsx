@@ -10,7 +10,8 @@ import Profile from "./profileSettings/Profile";
 import Password from "./password/Password";
 import Manage from "./managePortfolio/Manage";
 
-function Account({ session }) {
+function Account({session}) {
+  
   const [activeItem, setActiveItem] = useState("profile"); // Set the default active item
 
   const handleItemClick = (item) => {

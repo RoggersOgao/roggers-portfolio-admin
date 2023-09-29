@@ -70,7 +70,7 @@ function Login() {
         setLoading(prevState =>({...prevState, credentialsLoading:false}))
         if(status.error == null){
             router.push(status.url)
-            toast.success("logging in successful! (redirecting...)", {
+            toast.success(`${<CircularBar />} logging in successful!`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
