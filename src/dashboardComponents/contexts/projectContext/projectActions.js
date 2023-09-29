@@ -12,7 +12,7 @@ import { revalidatePath } from "next/cache";
 import axios from "axios";
 
 const projectAxios =axios.create({
-  baseURL: "http://localhost:3001"
+  baseURL: "roggers-portfolio-admin.vercel.app"
 })
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
