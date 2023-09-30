@@ -1,23 +1,18 @@
 "use server";
-import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import fs from "fs/promises";
 import { v4 as uuidv4 } from "uuid";
 import path from "path";
 import os from "os";
 import cloudinary from "cloudinary";
-import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-// import { revalidatePath } from "next/cache";
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
   api_secret: process.env.CLOUD_API_SECRET,
 });
-const designAxios = axios.create({
-  baseURL:"roggers-portfolio-admin.vercel.app"
-})
+
 export const fetchDesignById = async (id) => {
   try {
     const res = await fetch(`${process.env.API_URL}/api/design?id=${id}`);
@@ -26,7 +21,7 @@ export const fetchDesignById = async (id) => {
     }
     return res.json();
   } catch (err) {
-    return(err);
+    console.log(err);
   }
 };
 
@@ -60,6 +55,7 @@ async function uploadPhotoToLocalStorage(formData) {
       // );
       const tempdir = os.tmpdir();
       const uploadDir = path.join(tempdir, `/${name}.${ext}`);
+      // console.log(uploadDir)
       fs.writeFile(uploadDir, buffer);
       return { filepath: uploadDir, filename: file.name };
     })
@@ -93,37 +89,45 @@ async function uploadPhotosToCloudinary(newFiles) {
     throw error;
   }
 }
-const delay = (delaryInms) => {
-  return new Promise((resolve) => setTimeout(resolve, delaryInms));
-};
+
 export const uploadDesign = async (formData) => {
   try {
     const newFiles = await uploadPhotoToLocalStorage(formData);
+
+    // console.log(newFiles)
     const photo = await uploadPhotosToCloudinary(newFiles);
+    // console.log(photo)
     await Promise.all(newFiles.map((file) => fs.unlink(file.filepath)));
+    // console.log(photo[0])
     const designData = {
       design: photo[0],
       description: formData.get("description"),
     };
+    // console.log(designData)
 
-  // Use axios concurrency feature to send POST request
-    const [response] = await Promise.all([
-      designAxios.post(`/api/design`, designData),
-    ]);
-
-    if (response.status === 200) {
-      return { status: response.status, data: response.data };
-    } else {
-      console.error("POST request failed with status:", response.status);
-      return { status: response.status, error: response.data };
-    }
+    try {
+      const response = await fetch(`${process.env.API_URL}/api/design`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(designData),
+      });
     
+      if (response.status === 200) {
+        const data = await response.json();
+        return { status: response.status, data };
+      } else {
+        console.error("Upload error:", response.status);
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+    }
   } catch (err) {
     console.error(err);
-    return { status: 500, error: "Internal Server Error" };
   }
-};
 
+};
 
 export const updateDesign = async (
   id,
@@ -148,38 +152,55 @@ export const updateDesign = async (
       design: photos[0],
       description: formData.get("description"),
     };
+    // console.log(designData)
 
     try {
-      const response = await designAxios.put(
-        `/api/design?id=${id}`,
-        designData
-      );
-      if (response.status == 200) {
-        return { status: response.status, data: response.data };
+      const response = await fetch(`${process.env.API_URL}/api/design?id=${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(designData),
+      });
+    
+      if (response.status === 200) {
+        const data = await response.json();
+        console.log("Uploaded successfully!", response.status);
+        return { status: response.status, data };
+      } else {
+        const errorText = await response.text();
+        console.error("Upload error:", errorText);
+        return errorText;
       }
     } catch (error) {
       console.error("Upload error:", error.message);
       return error.message;
     }
+    
   } catch (err) {
     console.error(err.message);
     return err.message;
   }
 };
 
-export async function deleteDesign(
-  id,
-  design_public_id
-){
-  try{
-    cloudinary.v2.uploader.destroy(design_public_id)
+export async function deleteDesign(id, design_public_id) {
+  try {
+    // First, delete the Cloudinary resource
+    await cloudinary.v2.uploader.destroy(design_public_id);
 
-    const response = await designAxios.delete(`/api/design?id=${id}`)
-    revalidatePath("/")
+    // Then, make the DELETE request using fetch
+    const response = await fetch(`${process.env.API_URL}/api/design?id=${id}`, {
+      method: 'DELETE',
+    });
+
     if (response.status === 200) {
-      return { message: response.data.message };
+      revalidatePath("/");
+      const data = await response.json();
+      return { message: data.message };
+    } else {
+      throw new Error(`API request failed with status ${response.status}`);
     }
-  }catch(error){
-    return {message: err.message}
+  } catch (error) {
+    return { message: error.message };
   }
 }

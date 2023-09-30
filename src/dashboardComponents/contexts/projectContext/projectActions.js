@@ -1,5 +1,4 @@
 "use server";
-
 import { NextResponse } from "next/server";
 import "react-toastify/dist/ReactToastify.css";
 import fs from "fs/promises";
@@ -11,9 +10,10 @@ import { revalidatePath } from "next/cache";
 
 import axios from "axios";
 
-const projectAxios =axios.create({
-  baseURL: "roggers-portfolio-admin.vercel.app"
-})
+const proj = axios.create({
+  baseURL: process.env.NEXTAUTH_URL,
+});
+
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
@@ -29,7 +29,7 @@ export const fetchProject = async () => {
 
     return res.json();
   } catch (err) {
-    return(err);
+    console.log(err);
   }
 };
 
@@ -59,8 +59,15 @@ async function uploadPhotoToLocalStorage(formData) {
       const buffer = Buffer.from(data);
       const name = uuidv4();
       const ext = file.type.split("/")[1];
+      // console.log({name,ext})
+      // const uploadDir = path.join(
+      //   process.cwd(),
+      //   "public/uploads",
+      //   `/${name}.${ext}`
+      // );
       const tempdir = os.tmpdir();
       const uploadDir = path.join(tempdir, `/${name}.${ext}`);
+      // console.log(uploadDir)
       fs.writeFile(uploadDir, buffer);
       return { filepath: uploadDir, filename: file.name };
     })
@@ -121,12 +128,22 @@ export const uploadData = async (formData) => {
     };
 
     try {
-      const response = await projectAxios.post(`/api/project`, projectData);
+      const response = await fetch(`${process.env.API_URL}/api/project`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(projectData),
+      });
+    
       if (response.status === 200) {
-        return { data: response.data, status: response.status };
+        const data = await response.json();
+        return { status: response.status, data };
+      } else {
+        console.error("Upload error:", response.status);
       }
     } catch (err) {
-      return(err);
+      console.log(err);
     }
   } catch (error) {
     console.error("Upload error:", error);
@@ -141,7 +158,7 @@ export const fetchProjectById = async (id) => {
     }
     return res.json();
   } catch (err) {
-    return(err);
+    console.log(err);
   }
 };
 
@@ -154,6 +171,7 @@ export const updateProject = async (
 ) => {
   try {
     const technologiesArray = formData.getAll("technologies[]");
+    // console.log(technologiesArray);
     const parsedTechnologies = [];
     technologiesArray.forEach((jsonString) => {
       try {
@@ -163,9 +181,11 @@ export const updateProject = async (
         console.error("Parsing error:", error);
       }
     });
+    // console.log(parsedTechnologies);
 
     let photos = [];
 
+    // console.log(photos);
     if (hasNewImages) {
       const newFiles = await uploadPhotoToLocalStorage(formData);
       photos = await uploadPhotosToCloudinary(newFiles);
@@ -174,6 +194,7 @@ export const updateProject = async (
       await Promise.all(newFiles.map((file) => fs.unlink(file.filepath)));
     }
 
+    // console.log(photos); // Now this should reflect the correct photos array
     const projectData = {
       projectName: formData.get("projectName"),
       projectDescription: formData.get("projectDescription"),
@@ -184,15 +205,30 @@ export const updateProject = async (
     };
     // update the project in the database
     try {
-      const response = await projectAxios.put(`/api/project?id=${id}`, projectData);
+
+      const response = await fetch(`${process.env.API_URL}/api/project?id=${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(projectData),
+      });
+    
       if (response.status === 200) {
-        return { data: response.data, status: response.status };
+        const data = await response.json();
+        console.log("Uploaded successfully!", response.status);
+        return { status: response.status, data };
+      } else {
+        const errorText = await response.text();
+        console.error("Upload error:", errorText);
+        return errorText;
       }
     } catch (error) {
       console.error("update Error", err.message);
       return error.message;
     }
   } catch (err) {
+    console.log(err.message);
     return err.message;
   }
 };
@@ -205,12 +241,18 @@ export async function deleteProject(
   try {
     cloudinary.v2.uploader.destroy(coverPhoto_public_id);
     cloudinary.v2.uploader.destroy(projectPhoto_public_id);
-    const response = await projectAxios.delete(`/api/project?id=${id}`);
-    revalidatePath("/");
+    const response = await fetch(`${process.env.API_URL}/api/project?id=${id}`, {
+      method: 'DELETE',
+    });
     if (response.status === 200) {
-      return { msg: response.data };
+      revalidatePath("/");
+      const data = await response.json();
+      return { message: data.message };
+    }else {
+      throw new Error(`API request failed with status ${response.status}`);
     }
   } catch (err) {
     return { message: err.message };
   }
 }
+// export const deleteCartItem = async (dispatch, id) => {

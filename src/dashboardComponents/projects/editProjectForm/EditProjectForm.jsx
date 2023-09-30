@@ -49,6 +49,7 @@ function EditProjectForm({ projectData, session }) {
     setDisplayFiles([...uniqueFiles1]);
   }, []);
 
+  // console.log(files)
   // using useEffect to get data
 
   const setField = (value, field) => {
@@ -137,15 +138,20 @@ function EditProjectForm({ projectData, session }) {
       ...projectData.projectPhoto.map((img) => img.original_filename),
     ];
 
+    // console.log("existingImageFilenames:", existingImageFilenames);
+    // console.log("files:", files);
     const newFiles = files.filter(
       (file) => !existingImageFilenames.includes(file.name)
     );
+    
 
     try {
+      // console.log("newFiles:", newFiles);
+      // console.log("hasNewImages:", newFiles.length > 0);
       setIsLoading(true);
       
       const response = await updateProject(projectData._id, formData, newFiles.length > 0, coverPhotoPublic_id[0], projectPhotoPublic_id[0]);
-
+      
       setForm([]);
       setFiles([]);
       setDisplayFiles([]);
@@ -153,7 +159,7 @@ function EditProjectForm({ projectData, session }) {
       setTechl([]);
       formRef.current.reset();
       setIsLoading(false);
-      toast.success(response.data, {
+      toast.success(response.data.message, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -179,7 +185,7 @@ function EditProjectForm({ projectData, session }) {
     }
   };
 
-  return session ?(
+  return session?.user.role == "admin" ?(
     <div className={styles.container}>
       <h1 className={styles.projectNameBack}>
         Pro
@@ -367,7 +373,7 @@ function EditProjectForm({ projectData, session }) {
       </div>
     </div>
   ) : (
-    <p>You are not allowed to Perform any operation in this page</p>
+    <p>You are not allowed to Perform any operation in this page 🫠</p>
   );
 }
 

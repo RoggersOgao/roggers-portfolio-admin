@@ -6,9 +6,14 @@ import { SpinnerCircular } from "spinners-react";
 import { fetchProjectById } from "@/dashboardComponents/contexts/projectContext/projectActions";
 import EditProjectForm from "@/dashboardComponents/projects/editProjectForm/EditProjectForm";
 
+export async function generateMetadata({ params }) {
+  return {
+    title: `Edit project || ${params.id}`,
+  }
+}
 export default async function Page({params}){
-    
     const session = await getServerSession(options)
+
     const delay = (delaryInms) => {
         return new Promise((resolve) => setTimeout(resolve, delaryInms));
       };
@@ -16,10 +21,12 @@ export default async function Page({params}){
         delay(4000);
         redirect("/");
       }
-
+      
     const singleProject = await fetchProjectById(params.id)
 
     const projectData = singleProject.projects
+    
+    // console.log(projectData)
 
     return session ? (
         <div className={styles.container}>

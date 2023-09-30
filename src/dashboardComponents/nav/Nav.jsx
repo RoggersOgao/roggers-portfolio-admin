@@ -7,11 +7,18 @@ import TopNav from './topNav/TopNav'
 
 async function Nav() {
     const session = await getServerSession(options)
+    const delay = (delaryInms) => {
+        return new Promise((resolve) => setTimeout(resolve, delaryInms));
+      };
+      if (!session) {
+        delay(4000);
+        redirect("/");
+      }
     return session ? (
         <div className={styles.container}>
             <TopNav session={session}  />
         </div>
-    ): <div className={styles.loadingContainer}></div>
+    ): null
 }
 
 export default Nav

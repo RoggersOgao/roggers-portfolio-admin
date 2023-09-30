@@ -1,17 +1,22 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import styles from "./EditDesign.module.scss"
 import Dropzone from "./dropzone/Dropzone";
 import { AnimatePresence, motion } from "framer-motion";
 import { VscError } from "react-icons/vsc";
+import { PiSpinnerLight } from "react-icons/pi";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
-import { updateDesign} from "@/dashboardComponents/contexts/designContext/designActions";
+import { updateDesign, uploadDesign } from "@/dashboardComponents/contexts/designContext/designActions";
+import DesignContext from "@/dashboardComponents/contexts/designContext/DesignContext";
+import { AddDesign } from "@/dashboardComponents/contexts/designContext/dispatchDesignActions";
 import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
 
-function EditDesign({designData, session}) {
+
+function EditDesign({designData, session, designPhoto_public_id}) {
+  const { state, dispatch} = useContext(DesignContext)
   const [form, setForm] = useState({});
   const [displayFiles, setDisplayFiles] = useState([]);
   const [files, setFiles] = useState([]);
@@ -27,20 +32,25 @@ function EditDesign({designData, session}) {
     });
   };
 
-  const designPhoto_public_id = designData.design.map((img)=> img.public_id)
+  
+  console.log(designPhoto_public_id[0])
   // getting fetched data to display inside the forms
+  // console.log(designData)
   useEffect(() => {
+    // Update the form state with the description from designData
     setForm({
       description: designData.description,
     });
-    const uniqueFiles = new Set([...files]);
+    // Create a Set to remove duplicates from the 'files' array
+    const uniqueFiles = new Set(files);
     setFiles([...uniqueFiles]);
-    const uniqueFiles1 = new Set([
-      ...files,
-      ...designData.design,
-    ]);
-    setDisplayFiles([...uniqueFiles1]);
-  }, [designData.design, files]);
+  
+    // Combine 'files' and 'designData.design' arrays, then remove duplicates
+    const combinedFiles = [...files, ...designData.design];
+    const uniqueCombinedFiles = Array.from(new Set(combinedFiles));
+    setDisplayFiles(uniqueCombinedFiles);
+  }, []);
+  
 
   // validation of the fields
 
@@ -85,15 +95,22 @@ function EditDesign({designData, session}) {
       ...designData.design.map((img) => img.original_filename),
     ];
 
+    console.log("existingImageFilenames:", existingImageFilenames);
+    // console.log("files:", files);
     const newFiles = files.filter(
       (file) => !existingImageFilenames.includes(file.name)
     );
+    // console.log("newFiles:", newFiles);
+
+
 
     try {
+      // console.log("hasNewImages:", newFiles.length > 0);
       setIsLoading(true);
 
       // update data function
       const response = await updateDesign(designData._id, formData, newFiles.length > 0, designPhoto_public_id[0])
+      console.log(response)
       setForm([]);
       setFiles([]);
       setDisplayFiles([]);
@@ -126,7 +143,7 @@ function EditDesign({designData, session}) {
     }
   };
 
-  return session ?(
+  return session.user.role == "admin" ?(
     <div className={styles.container}>
       <h1 className={styles.projectNameBack}>
         des
@@ -134,7 +151,7 @@ function EditDesign({designData, session}) {
         ign
       </h1>
       <div className={styles.formContainer}>
-        <ToastContainer style={{ fontSize: "14px", marginTop:"5rem" }} />
+        {/* <ToastContainer style={{ fontSize: "14px", marginTop:"5rem" }} /> */}
         <div className={styles.title}>
           <h1>Update Design</h1>
           <Link href="/dashboard/design">

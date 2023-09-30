@@ -65,12 +65,13 @@ function Login() {
             redirect:false,
             email:form.email,
             password:form.password,
-            callbackUrl:'/dashboard'
+            callbackUrl:"/dashboard"
         })
         setLoading(prevState =>({...prevState, credentialsLoading:false}))
+        console.log(status)
         if(status.error == null){
             router.push(status.url)
-            toast.success(`${<CircularBar />} logging in successful!`, {
+            toast.success("logging in successful! (redirecting...)", {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -119,6 +120,8 @@ function Login() {
         }
       };
       
+    // console.log(form)
+    // console.log(formErrors)
     return (
         <div className={styles.container}>
             <ToastContainer style={{ fontSize: "14px", marginTop:"5rem" }} />

@@ -16,11 +16,12 @@ export default async function Page(){
         delay(4000);
         redirect("/");
       }
+
     return session ? (
         <div className={styles.container}>
             <div className={styles.project}>
             <Suspense fallback="loading...">
-                <NewProjectForm session={session}/>
+                <NewProjectForm session={session} />
             </Suspense>
             </div>
         </div>

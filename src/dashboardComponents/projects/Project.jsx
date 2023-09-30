@@ -5,8 +5,10 @@ import Card from "./card/Card";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+
 function Project({ project, session }) {
   const router = useRouter();
+  
 
   useEffect(() => {
     router.refresh();
@@ -34,7 +36,7 @@ function Project({ project, session }) {
           <div className={styles.card}>
             {project?.projects?.map((item, index) => (
               <div key={index}>
-                <Card project={item} id={index} />
+                <Card project={item} id={index}/>
               </div>
             ))}
           </div>

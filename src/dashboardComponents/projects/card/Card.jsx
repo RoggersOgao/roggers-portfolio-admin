@@ -26,6 +26,10 @@ function Card({ project, id }) {
   const projectPhotoPublicId = project.projectPhoto.map(
     (item) => item.public_id
   );
+  // console.log(project._id);
+  // console.log(coverPhotoPublicId[0])
+  // console.log(projectPhoto)
+  // console.log(projectPhotoPublicId[0])
   const router = useRouter();
   const mongoTimestamp = new Date(project.createdAt); // Replace with your actual timestamp
 
@@ -59,7 +63,8 @@ function Card({ project, id }) {
 
     if (userConfirmed) {
       try {
-        await deleteProject(id, coverId, projectId);
+        const response = await deleteProject(id, coverId, projectId);
+        console.log(response)
         // alert("deleted successfully!")
         toast.success("Project deleted successfully", {
           position: "top-right",
@@ -73,6 +78,7 @@ function Card({ project, id }) {
         });
         router.refresh(); // Adapt this based on your routing setup
       } catch (error) {
+        console.log(error);
         toast.error("An error occurred while deleting the project", {
           position: "top-right",
           autoClose: 5000,

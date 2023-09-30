@@ -95,7 +95,7 @@ function Settings({session}) {
       document.removeEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = 'auto';   // Clean up when unmounting
     };
-  }, []);
+  }, [state.isVisible]);
   // updating the form field role
   const handleActiveRole = (name) => {
     setField("role", name);
@@ -164,9 +164,19 @@ function Settings({session}) {
     try{
       setIsLoading(true)
       const response = await AddNewUser(form)
+      console.log(response)
       setIsLoading(false)
-      setForm([])
-      toast.success(response, {
+      // setForm([])
+      
+let messageToDisplay;
+
+if (response.data && response.data.message) {
+  messageToDisplay = response.data.message;
+} else {
+  messageToDisplay = response;
+}
+
+      toast.success(messageToDisplay, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -178,7 +188,7 @@ function Settings({session}) {
       });
     }catch(err){
       console.log(err)
-  toast.success(err.message, {
+  toast.error(err.message, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -188,6 +198,7 @@ function Settings({session}) {
         progress: undefined,
         theme: "dark",
       });
+      setIsLoading(false)
     }
   }
   return (
@@ -556,7 +567,7 @@ function Settings({session}) {
         <div className={styles.accountSettingsTitle}>
           <h1>Account settings</h1>
         </div>
-        <Account session={session}/>
+        <Account session={session} />
       </div>
     </div>
   );

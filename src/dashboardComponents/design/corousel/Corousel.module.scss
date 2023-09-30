@@ -58,8 +58,9 @@
             flex:12;
 
             .imgCont {
-                width: 100%;
+                width: 100;
                 border-radius: 2rem;
+                max-height: 72rem;
                 overflow: hidden;
 
                 .img {

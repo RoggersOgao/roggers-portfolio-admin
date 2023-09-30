@@ -47,7 +47,7 @@ export const fetchProjects = async() => {
 
     return res.json();
   } catch (err) {
-    return(err);
+    console.log(err);
   }
 }
 export const fetchDesigns = async () => {
@@ -59,7 +59,7 @@ export const fetchDesigns = async () => {
 
     return res.json();
   } catch (err) {
-    return(err);
+    console.log(err);
   }
 }
 
@@ -72,7 +72,7 @@ export const fetchUser = async () => {
 
     return res.json();
   } catch (err) {
-    return(err);
+    console.log(err);
   }
 };
 export const fetchGoogleUsers = async () => {
@@ -84,7 +84,7 @@ export const fetchGoogleUsers = async () => {
 
     return res.json();
   } catch (err) {
-    return(err);
+    console.log(err);
   }
 };
 export const fetchGithubUsers = async () => {
@@ -96,7 +96,63 @@ export const fetchGithubUsers = async () => {
 
     return res.json();
   } catch (err) {
-    return(err);
+    console.log(err);
   }
 };
 
+
+
+// export const AddUser = async (dispatch, product) => {
+//   try {
+//     const response = await cartItems.post("/api/carts", product);
+//     dispatch(addToCart(response.data));
+//     console.log(response);
+//     if (response.status === 201) {
+//       toast.success("Item added to cart!", {
+//         position: "top-right",
+//         autoClose: 5000,
+//         hideProgressBar: false,
+//         closeOnClick: true,
+//         pauseOnHover: true,
+//         draggable: true,
+//         progress: undefined,
+//         theme: "dark",
+//       });
+//     }
+//   } catch (err) {
+//     // console.log(err)
+//     toast.error("Item already exists!", {
+//       position: "top-right",
+//       autoClose: 5000,
+//       hideProgressBar: false,
+//       closeOnClick: true,
+//       pauseOnHover: true,
+//       draggable: true,
+//       progress: undefined,
+//       theme: "dark",
+//     });
+//   }
+//   return null;
+// };
+
+// export const updateCartItems = async (dispatch, id) => {
+//   try {
+//     const response = await cartItems.put(`/api/carts/${id}`, product);
+//     dispatch(updateCartItem(response.data));
+
+//     return response;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
+// export const deleteCartItem = async (dispatch, id) => {
+//   try {
+//     const response = await cartItems.delete(`/api/carts/${id}`);
+//     dispatch(removeFromCart(response.data));
+
+//     return response;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };

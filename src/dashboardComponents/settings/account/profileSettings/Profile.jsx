@@ -7,14 +7,14 @@ import Image from "next/image";
 import Dropzone from "./dropzone/Dropzone";
 import SettingsContext from "@/dashboardComponents/contexts/settingsContext/SettingsContext";
 import { updateUserWithoutImage } from "@/dashboardComponents/contexts/settingsContext/settingsActions";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
 import { isVisible } from "@/dashboardComponents/contexts/settingsContext/dispatchSettingsActions";
-import { useSession } from "next-auth/react";
 function Profile() {
-  const {data: session} = useSession()
+  const { data: session } = useSession();
   const { state, dispatch } = useContext(SettingsContext);
   const [roleDropdownActive, setRoleDropdownActive] = useState(false);
   const [form, setForm] = useState({});
@@ -24,6 +24,7 @@ function Profile() {
 
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  // console.log(session)
   const roleRef = useRef();
 
   const userData = useMemo(() => {
@@ -204,7 +205,6 @@ function Profile() {
         theme: "dark",
       });
     } catch (err) {
-      // console.log(err)
       toast.success(err.message, {
         position: "top-right",
         autoClose: 5000,
@@ -215,16 +215,18 @@ function Profile() {
         progress: undefined,
         theme: "dark",
       });
-      setIsLoading(false);
     }
   };
   const handleUpdateImage = async (e) => {
     e.preventDefault();
 
-    if (state.files.length > 0) {
+    if(state.files.length > 0){
       // ill update the code for this much later.....
     }
+
   };
+
+  console.log(state)
   return (
     <div className={styles.container}>
       <ToastContainer style={{ fontSize: "14px", marginTop: "5rem" }} />
@@ -493,56 +495,56 @@ function Profile() {
                 </AnimatePresence>
               </div>
               {/* role */}
-              {session?.user?.role == "admin" && (
-                <div className={styles.dropdownContainer} ref={roleRef}>
-                  <label htmlFor="role">Role</label>
-                  <div className={styles.dropdown}>
-                    <button
-                      htmlFor="role"
-                      type="button"
-                      onClick={() => {
-                        setRoleDropdownActive(!roleDropdownActive);
-                      }}
-                    >
-                      Role ({form?.role ? form?.role : "user"})
-                      <PiCaretUpDownBold />
-                    </button>
-                    <AnimatePresence>
-                      {roleDropdownActive && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ delay: 0.3 }}
-                          className={styles.dropdownList}
-                        >
-                          <ul>
-                            <motion.li
-                              initial={{ opacity: 0, y: -20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -20 }}
-                              transition={{ delay: 0.3 }} // Add a delay before exit animation
-                              onClick={(e) => handleActiveRole("user")}
-                            >
-                              User
-                            </motion.li>
-                            <motion.li
-                              initial={{ opacity: 0, y: -20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -20 }}
-                              transition={{ delay: 0.3 }}
-                              onClick={(e) => handleActiveRole("admin")}
-                            >
-                              Admin
-                            </motion.li>
-                          </ul>
-                        </motion.div>
-                      )}
+                    {session?.user?.role == "admin" && (
+                      <div className={styles.dropdownContainer} ref={roleRef}>
+                <label htmlFor="role">Role</label>
+                <div className={styles.dropdown}>
+                  <button
+                    htmlFor="role"
+                    type="button"
+                    onClick={() => {
+                      setRoleDropdownActive(!roleDropdownActive);
+                    }}
+                  >
+                    Role ({form?.role ? form?.role : "user"})
+                    <PiCaretUpDownBold />
+                  </button>
+                  <AnimatePresence>
+                  {roleDropdownActive && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ delay: 0.3 }}
+                        className={styles.dropdownList}
+                      >
+                        <ul>
+                          <motion.li
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ delay: 0.3 }} // Add a delay before exit animation
+                            onClick={(e) => handleActiveRole("user")}
+                          >
+                            User
+                          </motion.li>
+                          <motion.li
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ delay: 0.3 }}
+                            onClick={(e) => handleActiveRole("admin")}
+                          >
+                            Admin
+                          </motion.li>
+                        </ul>
+                      </motion.div>
+                  )}
                     </AnimatePresence>
-                  </div>
                 </div>
-              )}
-
+              </div>
+                    )}
+              
               {/* bio */}
               <div className={styles.formGroup}>
                 <label htmlFor="bio">Bio</label>
@@ -586,11 +588,9 @@ function Profile() {
             <div className={styles.profileRightTitle}>
               <h1>Your photo</h1>
               {session?.user?.role == "admin" && (
-                <div className={styles.addButton}>
-                  <button type="button" onClick={() => dispatch(isVisible())}>
-                    Add New User
-                  </button>
-                </div>
+              <div className={styles.addButton}>
+                <button type="button" onClick={() => dispatch(isVisible())}>Add New User</button>
+              </div>
               )}
             </div>
             <div className={styles.profileAvatarContainer}>
@@ -646,18 +646,12 @@ function Profile() {
                     {session ? (
                       <>
                         <div className={styles.button1}>
-                          <button
-                            type="submit"
-                            disabled
-                            onSubmit={handleUpdateImage}
-                          >
+                          <button type="submit" disabled onSubmit={handleUpdateImage}>
                             Update
                           </button>
                         </div>
                         <div className={styles.button2}>
-                          <button disabled type="button">
-                            Delete
-                          </button>
+                          <button disabled type="button">Delete</button>
                         </div>
                       </>
                     ) : (

@@ -5,6 +5,35 @@ import { compare } from "bcryptjs";
 import { NextResponse } from "next/server";
 import axios from "axios";
 
+const getUserByEmail = async (url) => {
+  try {
+    const response = await axios.get(url);
+    return response.data.user || response.data.users;
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      throw new Error(error.response.data.details);
+    }
+    throw new Error(error.message)
+  }
+}
+
+const updateUser = async (updateUrl, userData) => {
+  try {
+    await axios.put(updateUrl, userData); 
+  } catch (error) {
+    console.error(error.response.data.details || error);
+    throw new Error(error.message);
+  }
+}
+const createUser = async (createUrl, userData) => {
+  try {
+    await axios.post(createUrl, userData);
+  } catch (error) {
+    console.error(error.response.data.details || error);
+    throw error;
+  }
+}
+
 export const options = {
   providers: [
     CredentialsProvider({
@@ -196,15 +225,10 @@ export const options = {
                   ],
                   role: "user",
                 };
-                try {
-                  const response = await axios.post(
+                  const response = await createUser(
                     `${process.env.API_URL}/api/users`,
                     newUser
                   );
-                  
-                } catch (err) {
-                  throw new Error(err.response.data.details);
-                }
               } catch (err) {
                 // throw new Error(err.message);
               }
@@ -223,7 +247,6 @@ export const options = {
             // Check if the user exists based on the response data
             if (pduser) {
               const updateUserData = {
-                ...pduser,
                 name: profile.name,
                 email: profile.email,
                 image: profile.picture,
@@ -231,7 +254,7 @@ export const options = {
               };
               const updateOperation = { $set: updateUserData };
 
-              const updUser = await axios.put(
+              await updateUser(
                 `${process.env.API_URL}/api/users?email=${profile.email}`,
                 updateOperation
               );
@@ -241,15 +264,17 @@ export const options = {
             // Handle the "not found" error here
             if (error.response.status === 404) {
               try {
-                const res = await axios.post(
-                  `${process.env.API_URL}/api/auth/googleoauthusers`,
-                  {
-                    name: profile.name,
+
+                const ggUserData = {
+                  name: profile.name,
                     email: profile.email,
                     image: profile.picture,
                     locale: profile.locale,
                     role: "user",
-                  }
+                }
+                await createUser(
+                  `${process.env.API_URL}/api/auth/googleoauthusers`,
+                  ggUserData
                 );
                 
                 const newUser = {
@@ -258,7 +283,7 @@ export const options = {
                   image: profile.picture,
                   role: "user",
                 };
-                const response = await axios.post(
+                await createUser(
                   `${process.env.API_URL}/api/users`,
                   newUser
                 );
@@ -276,10 +301,9 @@ export const options = {
 
         case "credentials":
           try {
-            const cruser = await axios.get(
+            const pduser = await getUserByEmail(
               `${process.env.API_URL}/api/users?email=${user.email}`
             );
-            const pduser = await cruser.data.users;
             if (pduser) {
               const updatedUserData = {
                 name: user.name,
@@ -290,21 +314,16 @@ export const options = {
                 role: user.role,
               };
 
-              try {
-                const response = await axios.put(
-                  `${process.env.API_URL}/api/users?email=${user.email}`,
-                  updatedUserData
-                );
-                return true;
-              } catch (err) {
-                console.log(err.response.data.details);
-              }
+              await updateUser(
+                `${process.env.API_URL}/api/users?email=${user.email}`,
+                updatedUserData
+              );
             }
+            return true;
           } catch (err) {
             throw new Error(err.message);
           }
-          return true;
       }
     },
   },
-};
+}

@@ -1,4 +1,4 @@
-import styles from "./page.module.scss";
+import styles from "./page.module.scss"
 import { redirect } from "next/navigation";
 import { SpinnerCircular } from "spinners-react";
 import { getServerSession } from "next-auth";
@@ -7,36 +7,29 @@ import { Suspense } from "react";
 import Settings from "@/dashboardComponents/settings/Settings";
 
 export const metadata = {
-  title: "Settings . Portfolio",
-  description: "complete next app created with love!",
-};
-export default async function Page() {
-  const session = await getServerSession(options);
-
-  const delay = (delaryInms) => {
-    return new Promise((resolve) => setTimeout(resolve, delaryInms));
-  };
-  if (!session) {
-    delay(4000);
-    redirect("/");
+    title: 'Settings . Portfolio',
+    description: 'complete next app created with love!',
   }
-  return session ? (
-    <div className={styles.container}>
-      <div className={styles.right}>
-        <Suspense fallback="loading...">
-          <Settings session={session} />
-        </Suspense>
+  
+export default async function Page(){
+    const session = await getServerSession(options)
+    const delay = (delaryInms) => {
+        return new Promise((resolve) => setTimeout(resolve, delaryInms));
+      };
+      if (!session) {
+        delay(4000);
+        redirect("/");
+      }
+
+    return session ? (
+        <div className={styles.container}>
+            <div className={styles.right}>
+            <Suspense fallback="loading...">
+                <Settings session={session}/>
+            </Suspense>
+            </div>
+        </div>
+        ) : <div className={styles.loader}>
+        <SpinnerCircular size={100} thickness={100} speed={100} color="rgba(255, 255, 255, 1)" secondaryColor="rgba(74, 172, 57, 1)" />
       </div>
-    </div>
-  ) : (
-    <div className={styles.loader}>
-      <SpinnerCircular
-        size={100}
-        thickness={100}
-        speed={100}
-        color="rgba(255, 255, 255, 1)"
-        secondaryColor="rgba(74, 172, 57, 1)"
-      />
-    </div>
-  );
 }

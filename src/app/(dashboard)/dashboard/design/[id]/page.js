@@ -7,8 +7,8 @@ import { fetchDesignById } from "@/dashboardComponents/contexts/designContext/de
 import EditDesign from "@/dashboardComponents/design/editDesign/EditDesign";
 
 export default async function Page({params}){
-    
     const session = await getServerSession(options)
+
     const delay = (delaryInms) => {
         return new Promise((resolve) => setTimeout(resolve, delaryInms));
       };
@@ -16,16 +16,18 @@ export default async function Page({params}){
         delay(4000);
         redirect("/");
       }
-    
-    const singleDesign = await fetchDesignById(params.id)
 
-    const designData = singleDesign.designs
+      const { designs: designData } = await fetchDesignById(params.id);
+
+    
+    console.log(designData)
+    const designPhoto_public_id = designData.design.map((img)=> img.public_id)
 
     return session ? (
         <div className={styles.container}>
             <div className={styles.project}>
             <Suspense fallback="loading...">
-                <EditDesign designData={designData} session={session}/>
+                <EditDesign designData={designData} session={session} designPhoto_public_id={designPhoto_public_id}/>
             </Suspense>
             </div>
         </div>

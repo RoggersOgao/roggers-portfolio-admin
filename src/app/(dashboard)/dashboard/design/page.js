@@ -14,7 +14,6 @@ export const metadata = {
 };
 
 export default async function page() {
-  
   const session = await getServerSession(options);
   const delay = (delaryInms) => {
     return new Promise((resolve) => setTimeout(resolve, delaryInms));
@@ -23,7 +22,7 @@ export default async function page() {
     delay(4000);
     redirect("/");
   }
- 
+
   const design = await fetchDesign();
 
   return session ? (

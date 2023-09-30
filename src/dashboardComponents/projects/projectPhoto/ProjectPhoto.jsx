@@ -4,6 +4,7 @@ import styles from "./ProjectPhoto.module.scss";
 
 function ProjectPhoto({ project, loading }) {
   const photo = project.projectPhoto.map((item) => item.secure_url);
+  // console.log(photo)
 
   return (
     <div className={styles.container}>

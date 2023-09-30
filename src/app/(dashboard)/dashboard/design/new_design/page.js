@@ -8,7 +8,6 @@ import NewDesign from "@/dashboardComponents/design/newDesign/NewDesign";
 
 
 export default async function Page(){
-    
     const session = await getServerSession(options)
     const delay = (delaryInms) => {
         return new Promise((resolve) => setTimeout(resolve, delaryInms));

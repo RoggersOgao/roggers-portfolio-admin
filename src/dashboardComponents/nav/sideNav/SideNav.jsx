@@ -11,7 +11,7 @@ import 'react-tippy/dist/tippy.css';
 
 function SideNav() {
   const handleLogout = async () => {
-    await signOut("google", { callbackUrl: "/" })
+    await signOut({callbackUrl: `/` });
   }
   return (
     <div className={styles.container}>

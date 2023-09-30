@@ -24,6 +24,7 @@ function NewProjectForm({session}) {
   const [formErrors, setFormErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
+
   const formRef = useRef();
   const selectRef = useRef(null);
   const router = useRouter();
@@ -83,6 +84,7 @@ function NewProjectForm({session}) {
     setFormErrors(errors);
   };
 
+  // console.log(formErrors);
   const handleSelect = (e) => {
     setTechl(e);
   };
@@ -106,6 +108,7 @@ function NewProjectForm({session}) {
     try {
       setIsLoading(true);
       const response = await uploadData(formData);
+      // console.log(response)
       setForm([]);
       setFiles([]);
       selectRef.current.clearValue();
@@ -124,6 +127,7 @@ function NewProjectForm({session}) {
       });
       router.push("/dashboard/projects");
     } catch (err) {
+      console.log(err);
       toast.error(err.message, {
         position: "top-right",
         autoClose: 5000,
@@ -137,7 +141,7 @@ function NewProjectForm({session}) {
     }
   };
 
-  return session ?(
+  return session.user.role == "admin" ?(
     <div className={styles.container}>
       <h1 className={styles.projectNameBack}>
         Pro

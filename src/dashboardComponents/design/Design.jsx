@@ -19,12 +19,18 @@ import { deleteDesign } from "../contexts/designContext/designActions";
 import { Tooltip } from "react-tippy";
 import "react-tippy/dist/tippy.css";
 
+
 function Design({ designs, session }) {
+  
   const { dispatch } = useContext(DesignContext);
   const [actionsVisible, setActionsVisible] = useState(false);
   const desgn = designs.designs;
+  // console.log({desgn})
   const images = desgn.map((item) => item);
+  // console.log(images)
+
   const designPublicId = images.map((item) => item.design[0].public_id);
+  // console.log(designPublicId[1])
   const router = useRouter();
   // handle delete function
 
@@ -36,7 +42,6 @@ function Design({ designs, session }) {
     if (userConfirmed) {
       try {
         const response = await deleteDesign(id, designPublic_id);
-
         toast.success(response.message, {
           position: "top-right",
           autoClose: 5000,
@@ -49,7 +54,8 @@ function Design({ designs, session }) {
         });
         router.refresh(); // Adapt this based on your routing setup
       } catch (error) {
-        toast.error(error.message, {
+        console.log(error);
+        toast.error("An error occurred while deleting the project", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,

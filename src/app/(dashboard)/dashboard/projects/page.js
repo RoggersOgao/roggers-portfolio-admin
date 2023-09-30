@@ -30,7 +30,7 @@ export default async function Page() {
       <div className={styles.right}>
        <ImgCont />
         <Suspense fallback="loading...">
-          <Project project={project || []} session={session} />
+          <Project project={project || []} session={session}/>
         </Suspense>
       </div>
     </div>

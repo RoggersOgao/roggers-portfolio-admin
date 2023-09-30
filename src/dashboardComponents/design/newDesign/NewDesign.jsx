@@ -14,6 +14,7 @@ import DesignContext from "@/dashboardComponents/contexts/designContext/DesignCo
 import { AddDesign } from "@/dashboardComponents/contexts/designContext/dispatchDesignActions";
 import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
 
+
 function NewDesign({session}) {
   const { state, dispatch} = useContext(DesignContext)
   const [form, setForm] = useState({});
@@ -24,6 +25,7 @@ function NewDesign({session}) {
   const formRef = useRef();
   const selectRef = useRef(null);
   const router = useRouter();
+
 
   const setField = (value, field) => {
     setForm({
@@ -68,8 +70,8 @@ function NewDesign({session}) {
     try {
       setIsLoading(true);
       const response = await uploadDesign(formData);
-      dispatch(AddDesign(response.data.data))
-
+      
+      dispatch(AddDesign(response.data.message))
       setForm([]);
       setFiles([]);
       formRef.current.reset();
@@ -87,13 +89,13 @@ function NewDesign({session}) {
       
       router.push("/dashboard/design");
     } catch (err) {
-      console.log(err)
-      alert(err.message);
+      console.log(err);
+      alert("error uploading file");
       setIsLoading(false);
     }
   };
 
-  return session ?(
+  return session.user.role == "admin" ?(
     <div className={styles.container}>
       <h1 className={styles.projectNameBack}>
         des
