@@ -33,7 +33,7 @@ function EditDesign({designData, session, designPhoto_public_id}) {
   };
 
   
-  console.log(designPhoto_public_id[0])
+  // console.log(designPhoto_public_id[0])
   // getting fetched data to display inside the forms
   // console.log(designData)
   useEffect(() => {

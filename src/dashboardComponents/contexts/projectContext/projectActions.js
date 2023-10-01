@@ -8,12 +8,32 @@ import os from "os";
 import cloudinary from "cloudinary";
 import { revalidatePath } from "next/cache";
 
-import axios from "axios";
 
-const proj = axios.create({
-  baseURL: process.env.NEXTAUTH_URL,
-});
+async function createProject(projectData) {
+  try {
+    const response = await fetch(`${process.env.API_URL}/api/project`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(projectData),
+    });
 
+    if (response.status === 201) {
+      const data = await response.json();
+      return { status: response.status, data };
+    } else {
+      const errorMessage =
+        response.status === 409 ? "The Project already exists!" : "Something went wrong!";
+      return {
+        message: errorMessage,
+        status: response.status,
+      };
+    }
+  } catch (err) {
+    console.error("Upload error:", err);
+  }
+}
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
@@ -202,37 +222,28 @@ export const uploadProjectData = async (formData) => {
     const photos = await uploadPhotosToCloudinary(newFiles);
     await Promise.all(newFiles.map((file) => fs.unlink(file.filepath)));
 
-    const projectData = {
-      projectName: formData.get("projectName"),
-      projectDescription: formData.get("projectDescription"),
-      technologies: parsedTechnologies,
-      projectLink: formData.get("projectLink"),
-      coverPhoto: photos[0],
-      projectPhoto: photos[1],
-    };
+    // Define a function to handle the API request
 
-    try {
-      const response = await fetch(`${process.env.API_URL}/api/project`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(projectData),
-      });
-    
-      if (response.status === 201) {
-        const data = await response.json();
-        return { status: response.status, data };
-      } else {
-        // Return an object with consistent structure
-        return {
-          message: response.status === 409 ? "The Project already exists!" : "Something went wrong!",
-          status: response.status,
-        };
-      }
-    } catch (err) {
-      console.error("Upload error:", err);
-    }
+
+// Extract form data
+const projectData = {
+  projectName: formData.get("projectName"),
+  projectDescription: formData.get("projectDescription"),
+  technologies: parsedTechnologies,
+  projectLink: formData.get("projectLink"),
+  coverPhoto: photos[0],
+  projectPhoto: photos[1],
+};
+
+const result = await createProject(projectData);
+
+// Check the result
+if (result) {
+  return(result);
+} else {
+  console.error("Error occurred while creating the project");
+}
+
     
   } catch (error) {
     console.error("Upload error:", error);
