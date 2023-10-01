@@ -1,2 +1,8 @@
+{
+    "redirects": [
+      { "source": "https://roggers-portfolio-admin.vercel.app/dashboard/design/new_design", "destination": "https://roggers-portfolio-api.vercel.app/api/design", "statusCode": 301 },
+      { "source": "https://roggers-portfolio-admin.vercel.app/dashboard/projects/newProject", "destination": "https://roggers-portfolio-api.vercel.app/api/project", "statusCode": 301 }
 
+    ]
+  }
   
