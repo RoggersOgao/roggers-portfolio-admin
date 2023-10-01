@@ -14,6 +14,7 @@
         flex: 5;
         width: 100%;
         overflow: hidden;
+        padding-left:2rem;
 
         .top {
             margin-bottom: 3rem;
@@ -86,6 +87,7 @@
         position: sticky;
         top: 6rem;
         border-left: .3px solid var(--border-grey);
+        margin-left:1rem;
 
         @include respond(phone) {
             display: none;
@@ -130,14 +132,15 @@
 
                 &::before {
                     content: "";
-                    width: .7rem;
-                    height: .7rem;
+                    width: .5rem;
+                    height: .5rem;
                     display: inline-block;
                     position: absolute;
-                    background-color: grey;
+                    background-color: rgb(255, 255, 255);
                     border-radius: 50%;
                     left: -.4rem;
                     top: .5rem;
+                    margin-left:1rem;
                 }
             }
 
