@@ -107,23 +107,21 @@ function NewProjectForm({session}) {
     formData.append("projectLink", form.projectLink);
     try {
       setIsLoading(true);
-      await uploadProjectData(formData);
-      // console.log(response)
+      const response = await uploadProjectData(formData);
       setForm([]);
       setFiles([]);
       selectRef.current.clearValue();
       formRef.current.reset();
       setIsLoading(false);
-      // let messageToDisplay;
+      let messageToDisplay;
 
-      // if (response.data && response.data.message) {
-      //   messageToDisplay = response.data.message;
-      // } else {
-      //   messageToDisplay = response;
-      // }
+      if (response.data && response.data.message) {
+        messageToDisplay = response.data.message;
+      } else {
+        messageToDisplay = response;
+      }
 
-
-      toast.success("messageToDisplay", {
+      toast.success(messageToDisplay, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -133,7 +131,7 @@ function NewProjectForm({session}) {
         progress: undefined,
         theme: "dark",
       });
-      
+
       router.push("/dashboard/projects");
     } catch (err) {
       console.log(err);

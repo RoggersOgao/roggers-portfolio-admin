@@ -11,7 +11,7 @@ import { revalidatePath } from "next/cache";
 
 async function createProject(projectData) {
   try {
-    const response = await fetch(`${process.env.API_URL}/api/project`, {
+    const res = await fetch(`${process.env.API_URL}/api/project`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -19,15 +19,15 @@ async function createProject(projectData) {
       body: JSON.stringify(projectData),
     });
 
-    if (response.status === 201) {
-      const data = await response.json();
+    if (res.status === 201) {
+      const data = await res.json();
       return { status: response.status, data };
     } else {
       const errorMessage =
-        response.status === 409 ? "The Project already exists!" : "Something went wrong!";
+        res.status === 409 ? "The Project already exists!" : "Something went wrong!";
       return {
         message: errorMessage,
-        status: response.status,
+        status: res.status,
       };
     }
   } catch (err) {
@@ -236,15 +236,12 @@ const projectData = {
 };
 
 const result = await createProject(projectData);
-
 // Check the result
 if (result) {
   return(result);
 } else {
   console.error("Error occurred while creating the project");
 }
-
-    
   } catch (error) {
     console.error("Upload error:", error);
   }
