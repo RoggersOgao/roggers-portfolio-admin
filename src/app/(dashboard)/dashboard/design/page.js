@@ -1,5 +1,4 @@
 import styles from "./page.module.scss";
-import { redirect } from "next/navigation";
 import { SpinnerCircular } from "spinners-react";
 import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
@@ -15,14 +14,6 @@ export const metadata = {
 
 export default async function page() {
   const session = await getServerSession(options);
-  const delay = (delaryInms) => {
-    return new Promise((resolve) => setTimeout(resolve, delaryInms));
-  };
-  if (!session) {
-    delay(4000);
-    redirect("/");
-  }
-
   const design = await fetchDesign();
 
   return session ? (

@@ -57,7 +57,15 @@ function Login() {
     }
    
 
-    
+    const SuccessToast = ({ message }) => {
+        return (
+          <div>
+            <p>{message} <CircularBar /></p>
+          </div>
+        );
+      };
+
+      
     const handleSubmit = async (e) => {
         e.preventDefault()
         setLoading(prevState =>({...prevState, credentialsLoading:true}))
@@ -71,7 +79,7 @@ function Login() {
         console.log(status)
         if(status.error == null){
             router.push(status.url)
-            toast.success("logging in successful! (redirecting...)", {
+            toast.success(<SuccessToast message={"Signing in sucessful 🫨"}/>, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,

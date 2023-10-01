@@ -2,7 +2,6 @@
 // The code below is for getting session for a server component
 import Home from "@/dashboardComponents/home/Home"
 import styles from "./page.module.scss"
-import { redirect } from "next/navigation"
 import { SpinnerDiamond } from 'spinners-react'
 import { getServerSession } from "next-auth/next"
 import { options } from "@/app/api/auth/[...nextauth]/options"
@@ -13,13 +12,6 @@ import { Suspense } from "react"
 export default async function Page() {
   const session = await getServerSession(options)
   // Function to count users for a specific year
-  const delay = (delaryInms) => {
-    return new Promise((resolve) => setTimeout(resolve, delaryInms));
-  };
-  if (!session) {
-    delay(4000);
-    redirect("/");
-  }
   const crUsers =  fetchUser();
   const gbUsers =  fetchGithubUsers();
   const ggUsers =  fetchGoogleUsers();
