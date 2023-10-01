@@ -51,7 +51,7 @@ export async function AddNewUser(form){
     password: form.password,
     role: form.role
   }
-  try{
+  try {
     const response = await fetch(`${process.env.API_URL}/api/auth/signup`, {
       method: "POST",
       headers: {
@@ -60,15 +60,24 @@ export async function AddNewUser(form){
       body: JSON.stringify(userData),
     });
   
-    if (response.status == 201) {
+    if (response.status === 201) {
       const data = await response.json();
       console.log("Uploaded successfully!", response.status);
       return { status: response.status, data };
     } else {
-      return("Upload error:", response.status == 409 ? "The user already exists!": " something went wrong!");
+      // Return an object with a consistent structure
+      return {
+        message: response.status === 409 ? "The user already exists!" : "Something went wrong!",
+        status: response.status,
+      };
     }
-  }catch(err){
-    return err
+  } catch (err) {
+    console.error("Upload error:", err);
+    return {
+      message: "An error occurred during upload.",
+      status: 500, // Internal Server Error
+    };
   }
+  
 }
   

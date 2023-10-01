@@ -169,16 +169,20 @@ export const uploadDesignData = async (formData) => {
         body: JSON.stringify(designData),
       });
     
-      if (response.status == 201) {
+      if (response.status === 201) {
         const data = await response.json();
         console.log("Uploaded successfully!", response.status);
         return { status: response.status, data };
       } else {
-        return("Upload error:", response.status == 409 ? "The user design exists!": " something went wrong!");
+        // Use curly braces to return an object
+        return {
+          message: response.status === 409 ? "The user design exists!" : "Something went wrong!",
+          status: response.status,
+        };
       }
     } catch (error) {
       console.error("Upload error:", error);
-    }
+    }    
   } catch (err) {
     console.error(err);
   }

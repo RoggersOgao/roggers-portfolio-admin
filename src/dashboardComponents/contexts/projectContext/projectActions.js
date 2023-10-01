@@ -224,11 +224,16 @@ export const uploadProjectData = async (formData) => {
         const data = await response.json();
         return { status: response.status, data };
       } else {
-        return("Upload error:", response.status == 409 ? "The Project already exists!": " something went wrong!");
+        // Return an object with consistent structure
+        return {
+          message: response.status === 409 ? "The Project already exists!" : "Something went wrong!",
+          status: response.status,
+        };
       }
     } catch (err) {
-      console.log(err);
+      console.error("Upload error:", err);
     }
+    
   } catch (error) {
     console.error("Upload error:", error);
   }
