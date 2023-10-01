@@ -100,55 +100,7 @@ async function uploadPhotosToCloudinary(newFiles) {
   }
 }
 
-export const uploadData = async (formData) => {
-  try {
-    const technologiesArray = formData.getAll("technologies[]");
-    const parsedTechnologies = technologiesArray
-      .map((jsonString) => {
-        try {
-          return JSON.parse(jsonString);
-        } catch (error) {
-          console.error("Parsing error:", error);
-          return null;
-        }
-      })
-      .filter(Boolean);
 
-    const newFiles = await uploadPhotoToLocalStorage(formData);
-    const photos = await uploadPhotosToCloudinary(newFiles);
-    await Promise.all(newFiles.map((file) => fs.unlink(file.filepath)));
-
-    const projectData = {
-      projectName: formData.get("projectName"),
-      projectDescription: formData.get("projectDescription"),
-      technologies: parsedTechnologies,
-      projectLink: formData.get("projectLink"),
-      coverPhoto: photos[0],
-      projectPhoto: photos[1],
-    };
-
-    try {
-      const response = await fetch(`https://roggers-portfolio-api.vercel.app/api/project`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(projectData),
-      });
-    
-      if (response.status === 201) {
-        const data = await response.json();
-        return { status: response.status, data };
-      } else {
-        return("Upload error:", response.status == 409 ? "The Project already exists!": " something went wrong!");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  } catch (error) {
-    console.error("Upload error:", error);
-  }
-};
 
 export const fetchProjectById = async (id) => {
   try {
@@ -232,7 +184,55 @@ export const updateProject = async (
     return err.message;
   }
 };
+export const uploadData = async (formData) => {
+  try {
+    const technologiesArray = formData.getAll("technologies[]");
+    const parsedTechnologies = technologiesArray
+      .map((jsonString) => {
+        try {
+          return JSON.parse(jsonString);
+        } catch (error) {
+          console.error("Parsing error:", error);
+          return null;
+        }
+      })
+      .filter(Boolean);
 
+    const newFiles = await uploadPhotoToLocalStorage(formData);
+    const photos = await uploadPhotosToCloudinary(newFiles);
+    await Promise.all(newFiles.map((file) => fs.unlink(file.filepath)));
+
+    const projectData = {
+      projectName: formData.get("projectName"),
+      projectDescription: formData.get("projectDescription"),
+      technologies: parsedTechnologies,
+      projectLink: formData.get("projectLink"),
+      coverPhoto: photos[0],
+      projectPhoto: photos[1],
+    };
+
+    try {
+      const response = await fetch(`${process.env.API_URL}/api/project`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(projectData),
+      });
+    
+      if (response.status === 201) {
+        const data = await response.json();
+        return { status: response.status, data };
+      } else {
+        return("Upload error:", response.status == 409 ? "The Project already exists!": " something went wrong!");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  } catch (error) {
+    console.error("Upload error:", error);
+  }
+};
 export async function deleteProject(
   id,
   coverPhoto_public_id,

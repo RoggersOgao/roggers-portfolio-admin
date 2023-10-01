@@ -90,45 +90,6 @@ async function uploadPhotosToCloudinary(newFiles) {
   }
 }
 
-export const uploadDesign = async (formData) => {
-  try {
-    const newFiles = await uploadPhotoToLocalStorage(formData);
-
-    // console.log(newFiles)
-    const photo = await uploadPhotosToCloudinary(newFiles);
-    // console.log(photo)
-    await Promise.all(newFiles.map((file) => fs.unlink(file.filepath)));
-    // console.log(photo[0])
-    const designData = {
-      design: photo[0],
-      description: formData.get("description"),
-    };
-    // console.log(designData)
-
-    try {
-      const response = await fetch(`https://roggers-portfolio-api.vercel.app/api/design`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(designData),
-      });
-    
-      if (response.status == 201) {
-        const data = await response.json();
-        console.log("Uploaded successfully!", response.status);
-        return { status: response.status, data };
-      } else {
-        return("Upload error:", response.status == 409 ? "The user design exists!": " something went wrong!");
-      }
-    } catch (error) {
-      console.error("Upload error:", error);
-    }
-  } catch (err) {
-    console.error(err);
-  }
-
-};
 
 export const updateDesign = async (
   id,
@@ -183,6 +144,47 @@ export const updateDesign = async (
     return err.message;
   }
 };
+
+export const uploadDesign = async (formData) => {
+  try {
+    const newFiles = await uploadPhotoToLocalStorage(formData);
+
+    // console.log(newFiles)
+    const photo = await uploadPhotosToCloudinary(newFiles);
+    // console.log(photo)
+    await Promise.all(newFiles.map((file) => fs.unlink(file.filepath)));
+    // console.log(photo[0])
+    const designData = {
+      design: photo[0],
+      description: formData.get("description"),
+    };
+    // console.log(designData)
+
+    try {
+      const response = await fetch(`${process.env.API_URL}/api/design`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(designData),
+      });
+    
+      if (response.status == 201) {
+        const data = await response.json();
+        console.log("Uploaded successfully!", response.status);
+        return { status: response.status, data };
+      } else {
+        return("Upload error:", response.status == 409 ? "The user design exists!": " something went wrong!");
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+
+};
+
 
 export async function deleteDesign(id, design_public_id) {
   try {
