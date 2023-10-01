@@ -1,0 +1,15 @@
+{
+    "rewrites": [
+      {
+        "source": "https://roggers-portfolio-admin.vercel.app/dashboard/design/new_design",
+        "method": "POST",  
+        "destination": "https://roggers-portfolio-api.vercel.app/api/design" 
+      },
+      {
+        "source": "https://roggers-portfolio-admin.vercel.app/dashboard/projects/newProject",
+        "method": "POST",  
+        "destination": "https://roggers-portfolio-api.vercel.app/api/project"  
+      }
+    ]
+  }
+  

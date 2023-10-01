@@ -235,7 +235,15 @@ const projectData = {
   projectPhoto: photos[1],
 };
 
-const result = await createProject(projectData);
+const data = {
+  projectName: projectData.projectName,
+  projectDescription: projectData.projectDescription,
+  technologies: projectData.technologies,
+  projectLink: projectData.projectLink,
+  coverPhoto: projectData.coverPhoto,
+  projectPhoto: projectData.projectPhoto,
+}
+const result = await createProject(data);
 // Check the result
 if (result) {
   return(result);
