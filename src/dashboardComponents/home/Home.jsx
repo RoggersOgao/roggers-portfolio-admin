@@ -8,7 +8,6 @@ import { ResponsiveCalendar } from "@nivo/calendar";
 // import { data } from "./data";
 import { SiAltiumdesigner, SiCodeproject, SiMailchimp } from "react-icons/si";
 import { signOut } from "next-auth/react";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 function Home({
   combinedUsers,
@@ -16,7 +15,8 @@ function Home({
   numGithubUsers,
   combinedUsersForCalendar,
   projects,
-  designs
+  designs,
+  session
 }) {
 
 
@@ -24,7 +24,6 @@ function Home({
   const numberOfDesigns = designs.designs
   const numberOfProjects = projects.projects
 
-  const { data: session } = useSession();
   // generate data to show on calendar
   function generateCalaendarItem(data) {
     const dailyCount = data.reduce((accumulator, currentItem) => {

@@ -5,7 +5,7 @@ import styles from "./page.module.scss"
 import { SpinnerDiamond } from 'spinners-react'
 import { getServerSession } from "next-auth/next"
 import { options } from "@/app/api/auth/[...nextauth]/options"
-import { fetchDesigns, fetchGithubUsers, fetchGoogleUsers, fetchProjects, fetchUser } from "@/dashboardComponents/contexts/dashHomeContext/DashActions"
+import { fetchCrUsers, fetchDesigns, fetchGithubUsers, fetchGoogleUsers, fetchProjects, fetchUser } from "@/dashboardComponents/contexts/dashHomeContext/DashActions"
 import { Suspense } from "react"
 
 
@@ -15,9 +15,10 @@ export default async function Page() {
   const crUsers =  fetchUser();
   const gbUsers =  fetchGithubUsers();
   const ggUsers =  fetchGoogleUsers();
+  const crdUsers = fetchCrUsers();
   
 
-  const [users, gguser, gbuser] = await Promise.all([crUsers, ggUsers, gbUsers])
+  const [users, gguser, gbuser, cUsers] = await Promise.all([crUsers, ggUsers, gbUsers, crdUsers])
 
   const designs = await fetchDesigns()
   const projects = await fetchProjects()
@@ -26,7 +27,8 @@ export default async function Page() {
   // console.log(gguser)
   // console.log(gbuser)
 
-  const combinedUsersForCalendar = [...gguser.user, ...gbuser.user]
+
+  const combinedUsersForCalendar = [...gguser.user, ...gbuser.user, ...cUsers.users]
   const combinedUsers = [...users.users]
   const numGoogleUsers = [...gguser.user].length
   const numGithubUsers = [...gbuser.user].length
@@ -36,7 +38,7 @@ export default async function Page() {
       <div className={styles.container}>
         <div className={styles.right}>
           <Suspense fallback="loading...">
-          <Home combinedUsers={combinedUsers} numGoogleUsers={numGoogleUsers} numGithubUsers={numGithubUsers} combinedUsersForCalendar={combinedUsersForCalendar} designs={designs} projects={projects}/>
+          <Home combinedUsers={combinedUsers} numGoogleUsers={numGoogleUsers} numGithubUsers={numGithubUsers} combinedUsersForCalendar={combinedUsersForCalendar} designs={designs} projects={projects} session={session}/>
           </Suspense>
         </div>
       </div>

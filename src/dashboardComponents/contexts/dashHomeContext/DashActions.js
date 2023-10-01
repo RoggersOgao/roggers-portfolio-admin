@@ -75,6 +75,19 @@ export const fetchUser = async () => {
     console.log(err);
   }
 };
+
+export const fetchCrUsers = async () => {
+  try {
+    const res = await fetch(`${process.env.API_URL}/api/auth/signup`);
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+  } catch (err) {
+    console.log(err);
+  }
+}
 export const fetchGoogleUsers = async () => {
   try {
     const res = await fetch(`${process.env.API_URL}/api/auth/googleoauthusers`);
