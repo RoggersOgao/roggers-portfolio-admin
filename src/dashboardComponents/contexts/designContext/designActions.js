@@ -114,7 +114,7 @@ export const uploadDesign = async (formData) => {
         body: JSON.stringify(designData),
       });
     
-      if (response.status === 200) {
+      if (response.status === 201) {
         const data = await response.json();
         return { status: response.status, data };
       } else {
