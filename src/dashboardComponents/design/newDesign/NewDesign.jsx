@@ -94,7 +94,16 @@ function NewDesign({ session }) {
       router.push("/dashboard/design");
     } catch (err) {
       console.log(err);
-      alert("error uploading file");
+      toast.error(err.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       setIsLoading(false);
     }
   };
