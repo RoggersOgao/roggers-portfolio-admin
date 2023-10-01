@@ -140,7 +140,7 @@ export const uploadData = async (formData) => {
         const data = await response.json();
         return { status: response.status, data };
       } else {
-        console.error("Upload error:", response.status);
+        return("Upload error:", response.status == 409 ? "The Project already exists!": " something went wrong!");
       }
     } catch (err) {
       console.log(err);

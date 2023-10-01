@@ -1,10 +1,4 @@
 "use server"
-import axios from "axios"
-
-
-const profileAxios = axios.create({
-  baseURL: process.env.API_URL
-})
 
 export async function updateUserWithoutImage(id, form) {
 

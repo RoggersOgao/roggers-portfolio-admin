@@ -114,11 +114,12 @@ export const uploadDesign = async (formData) => {
         body: JSON.stringify(designData),
       });
     
-      if (response.status === 201) {
+      if (response.status == 201) {
         const data = await response.json();
+        console.log("Uploaded successfully!", response.status);
         return { status: response.status, data };
       } else {
-        console.error("Upload error:", response.status);
+        return("Upload error:", response.status == 409 ? "The user design exists!": " something went wrong!");
       }
     } catch (error) {
       console.error("Upload error:", error);

@@ -114,8 +114,16 @@ function NewProjectForm({session}) {
       selectRef.current.clearValue();
       formRef.current.reset();
       setIsLoading(false);
+      let messageToDisplay;
 
-      toast.success(response.data.message, {
+      if (response.data && response.data.message) {
+        messageToDisplay = response.data.message;
+      } else {
+        messageToDisplay = response;
+      }
+
+
+      toast.success(messageToDisplay, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,

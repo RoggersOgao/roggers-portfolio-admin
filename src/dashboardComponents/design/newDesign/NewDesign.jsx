@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef, useContext } from "react";
-import styles from "./NewDesign.module.scss"
+import styles from "./NewDesign.module.scss";
 import Dropzone from "./dropzone/Dropzone";
 import { AnimatePresence, motion } from "framer-motion";
 import { VscError } from "react-icons/vsc";
@@ -14,9 +14,8 @@ import DesignContext from "@/dashboardComponents/contexts/designContext/DesignCo
 import { AddDesign } from "@/dashboardComponents/contexts/designContext/dispatchDesignActions";
 import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
 
-
-function NewDesign({session}) {
-  const { state, dispatch} = useContext(DesignContext)
+function NewDesign({ session }) {
+  const { state, dispatch } = useContext(DesignContext);
   const [form, setForm] = useState({});
   const [files, setFiles] = useState([]);
   const [formErrors, setFormErrors] = useState({});
@@ -25,7 +24,6 @@ function NewDesign({session}) {
   const formRef = useRef();
   const selectRef = useRef(null);
   const router = useRouter();
-
 
   const setField = (value, field) => {
     setForm({
@@ -43,7 +41,8 @@ function NewDesign({session}) {
         if (!value) {
           errors.description = "description is required!";
         } else if (value.length < 10 || value.length > 60) {
-          errors.description = "Design description cannot exceed (100) characters or be less than (10) characters";
+          errors.description =
+            "Design description cannot exceed (100) characters or be less than (10) characters";
         } else {
           delete errors.description;
         }
@@ -54,7 +53,6 @@ function NewDesign({session}) {
     setFormErrors(errors);
   };
 
- 
   const handleUpload = async (e) => {
     e.preventDefault();
     if (files.length !== 1) {
@@ -70,13 +68,19 @@ function NewDesign({session}) {
     try {
       setIsLoading(true);
       const response = await uploadDesign(formData);
-      
-      dispatch(AddDesign(response.data.message))
+      let messageToDisplay;
+
+      if (response.data && response.data.message) {
+        messageToDisplay = response.data.message;
+      } else {
+        messageToDisplay = response;
+      }
+      // dispatch(AddDesign(response.data.message));
       setForm([]);
       setFiles([]);
       formRef.current.reset();
       setIsLoading(false);
-      toast.success(response.data.message, {
+      toast.success(messageToDisplay, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -86,7 +90,7 @@ function NewDesign({session}) {
         progress: undefined,
         theme: "dark",
       });
-      
+
       router.push("/dashboard/design");
     } catch (err) {
       console.log(err);
@@ -95,7 +99,7 @@ function NewDesign({session}) {
     }
   };
 
-  return session.user.role == "admin" ?(
+  return session.user.role == "admin" ? (
     <div className={styles.container}>
       <h1 className={styles.projectNameBack}>
         des
@@ -112,7 +116,7 @@ function NewDesign({session}) {
         </div>
         <form className={styles.form} onSubmit={handleUpload} ref={formRef}>
           {/* dropzone */}
-        <div className={styles.formGroup}>
+          <div className={styles.formGroup}>
             <label htmlFor="select" className={styles.select}>
               Upload an Image Here
             </label>
@@ -148,7 +152,7 @@ function NewDesign({session}) {
               )}
             </AnimatePresence>
           </div>
-         
+
           <div className={styles.formGroup}>
             <div className={styles.btnGroup}>
               <button type="submit">
@@ -159,7 +163,7 @@ function NewDesign({session}) {
         </form>
       </div>
     </div>
-  ): (
+  ) : (
     <p>You are not allowed to view this page.....🫠 </p>
   );
 }

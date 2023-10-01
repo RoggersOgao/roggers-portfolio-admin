@@ -168,13 +168,13 @@ function Settings({session}) {
       setIsLoading(false)
       // setForm([])
       
-let messageToDisplay;
+      let messageToDisplay;
 
-if (response.data && response.data.message) {
-  messageToDisplay = response.data.message;
-} else {
-  messageToDisplay = response;
-}
+      if (response.data && response.data.message) {
+        messageToDisplay = response.data.message;
+      } else {
+        messageToDisplay = response;
+      }
 
       toast.success(messageToDisplay, {
         position: "top-right",
