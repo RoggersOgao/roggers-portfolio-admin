@@ -106,7 +106,7 @@ export const uploadDesign = async (formData) => {
     // console.log(designData)
 
     try {
-      const response = await fetch(`${process.env.API_URL}/api/design`, {
+      const response = await fetch(`https://roggers-portfolio-api.vercel.app/api/design`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

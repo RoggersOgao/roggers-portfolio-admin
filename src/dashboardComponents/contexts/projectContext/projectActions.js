@@ -128,7 +128,7 @@ export const uploadData = async (formData) => {
     };
 
     try {
-      const response = await fetch(`${process.env.API_URL}/api/project`, {
+      const response = await fetch(`https://roggers-portfolio-api.vercel.app/api/project`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
