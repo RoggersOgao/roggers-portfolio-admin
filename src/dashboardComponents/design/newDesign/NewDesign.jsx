@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
-import { uploadDesign } from "@/dashboardComponents/contexts/designContext/designActions";
+import { uploadDesignData } from "@/dashboardComponents/contexts/designContext/designActions";
 import DesignContext from "@/dashboardComponents/contexts/designContext/DesignContext";
 import { AddDesign } from "@/dashboardComponents/contexts/designContext/dispatchDesignActions";
 import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
@@ -67,7 +67,7 @@ function NewDesign({ session }) {
 
     try {
       setIsLoading(true);
-      const response = await uploadDesign(formData);
+      const response = await uploadDesignData(formData);
       let messageToDisplay;
 
       if (response.data && response.data.message) {

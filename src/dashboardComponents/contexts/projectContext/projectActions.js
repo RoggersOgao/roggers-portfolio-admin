@@ -184,7 +184,7 @@ export const updateProject = async (
     return err.message;
   }
 };
-export const uploadData = async (formData) => {
+export const uploadProjectData = async (formData) => {
   try {
     const technologiesArray = formData.getAll("technologies[]");
     const parsedTechnologies = technologiesArray

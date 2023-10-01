@@ -5,7 +5,7 @@ import Dropzone from "./dropzone/Dropzone";
 import { tech } from "./technologies";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { uploadData } from "@/dashboardComponents/contexts/projectContext/projectActions";
+import { uploadProjectData } from "@/dashboardComponents/contexts/projectContext/projectActions";
 import { AnimatePresence, motion } from "framer-motion";
 import { VscError } from "react-icons/vsc";
 import { PiSpinnerLight } from "react-icons/pi";
@@ -107,8 +107,8 @@ function NewProjectForm({session}) {
     formData.append("projectLink", form.projectLink);
     try {
       setIsLoading(true);
-      const response = await uploadData(formData);
-      // console.log(response)
+      const response = await uploadProjectData(formData);
+      console.log(response)
       setForm([]);
       setFiles([]);
       selectRef.current.clearValue();

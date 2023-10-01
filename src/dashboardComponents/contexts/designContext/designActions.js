@@ -145,7 +145,7 @@ export const updateDesign = async (
   }
 };
 
-export const uploadDesign = async (formData) => {
+export const uploadDesignData = async (formData) => {
   try {
     const newFiles = await uploadPhotoToLocalStorage(formData);
 
