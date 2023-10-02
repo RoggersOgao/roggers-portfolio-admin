@@ -158,32 +158,33 @@ export const uploadDesignData = async (formData) => {
       design: photo[0],
       description: formData.get("description"),
     };
-    // console.log(designData)
+    
+    return {data: designData}
 
-    try {
-      const url = `${process.env.API_URL}/api/design`
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(designData),
-      });
+    // try {
+    //   const url = `${process.env.API_URL}/api/design`
+    //   const response = await fetch(url, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(designData),
+    //   });
 
-      if (response.status === 201) {
-        const data = await response.json();
-        console.log("Uploaded successfully!", response.status);
-        return { status: response.status, data };
-      } else {
-        // Use curly braces to return an object
-        return {
-          message: response.status === 409 ? "The user design exists!" : "Something went wrong!",
-          status: response.status,
-        };
-      }
-    } catch (error) {
-      console.error("Upload error:", error);
-    }    
+    //   if (response.status === 201) {
+    //     const data = await response.json();
+    //     console.log("Uploaded successfully!", response.status);
+    //     return { status: response.status, data };
+    //   } else {
+    //     // Use curly braces to return an object
+    //     return {
+    //       message: response.status === 409 ? "The user design exists!" : "Something went wrong!",
+    //       status: response.status,
+    //     };
+    //   }
+    // } catch (error) {
+    //   console.error("Upload error:", error);
+    // }    
   } catch (err) {
     console.error(err);
   }

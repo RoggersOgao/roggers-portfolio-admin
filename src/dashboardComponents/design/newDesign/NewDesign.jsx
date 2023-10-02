@@ -68,19 +68,21 @@ function NewDesign({ session }) {
     try {
       setIsLoading(true);
       const response = await uploadDesignData(formData);
-      let messageToDisplay;
 
-      if (response.data && response.data.message) {
-        messageToDisplay = response.data.message;
-      } else {
-        messageToDisplay = response;
-      }
-      // dispatch(AddDesign(response.data.message));
-      setForm([]);
-      setFiles([]);
-      formRef.current.reset();
-      setIsLoading(false);
-      toast.success(messageToDisplay, {
+      const designData = response.data
+console.log(designData)
+      const apiRes = await fetch("https://roggers-portfolio-api.vercel.app/api/design", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(designData),
+      })
+      console.log(apiRes)
+      if (apiRes.status === 201) {
+        const data = await apiRes.json();
+        console.log("Uploaded successfully!", apiRes.status);
+        toast.success(data.message, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -90,6 +92,42 @@ function NewDesign({ session }) {
         progress: undefined,
         theme: "dark",
       });
+        
+      } else {
+        // Use curly braces to return an object
+        toast.error("Message to display", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      }
+      // let messageToDisplay;
+
+      // if (response.data && response.data.message) {
+      //   messageToDisplay = response.data.message;
+      // } else {
+      //   messageToDisplay = response;
+      // }
+      // // dispatch(AddDesign(response.data.message));
+      // setForm([]);
+      // setFiles([]);
+      // formRef.current.reset();
+      // setIsLoading(false);
+      // toast.success(messageToDisplay, {
+      //   position: "top-right",
+      //   autoClose: 5000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   theme: "dark",
+      // });
 
       router.push("/dashboard/design");
     } catch (err) {
