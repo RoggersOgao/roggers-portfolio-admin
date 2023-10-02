@@ -161,14 +161,15 @@ export const uploadDesignData = async (formData) => {
     // console.log(designData)
 
     try {
-      const response = await fetch(`${process.env.API_URL}/api/design`, {
+      const url = `${process.env.API_URL}/api/design`
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(designData),
       });
-    
+
       if (response.status === 201) {
         const data = await response.json();
         console.log("Uploaded successfully!", response.status);

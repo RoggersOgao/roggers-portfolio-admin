@@ -10,8 +10,10 @@ import { revalidatePath } from "next/cache";
 
 
 async function createProject(projectData) {
+  const url = `${process.env.API_URL}/api/project`
+  console.log(url)
   try {
-    const res = await fetch(`${process.env.API_URL}/api/project`, {
+    const res = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,7 +23,7 @@ async function createProject(projectData) {
 
     if (res.status === 201) {
       const data = await res.json();
-      return { status: response.status, data };
+      return { status: res.status, data };
     } else {
       const errorMessage =
         res.status === 409 ? "The Project already exists!" : "Something went wrong!";
@@ -234,17 +236,9 @@ const projectData = {
   coverPhoto: photos[0],
   projectPhoto: photos[1],
 };
-
-const data = {
-  projectName: projectData.projectName,
-  projectDescription: projectData.projectDescription,
-  technologies: projectData.technologies,
-  projectLink: projectData.projectLink,
-  coverPhoto: projectData.coverPhoto,
-  projectPhoto: projectData.projectPhoto,
-}
-const result = await createProject(data);
+const result = await createProject(projectData);
 // Check the result
+// console.log(response)
 if (result) {
   return(result);
 } else {
@@ -254,6 +248,10 @@ if (result) {
     console.error("Upload error:", error);
   }
 };
+
+
+
+// delete function
 export async function deleteProject(
   id,
   coverPhoto_public_id,
