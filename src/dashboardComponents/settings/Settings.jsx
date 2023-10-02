@@ -166,7 +166,7 @@ function Settings({session}) {
       const response = await AddNewUser(form)
       console.log(response)
       setIsLoading(false)
-      // setForm([])
+      setForm([])
       
       let messageToDisplay;
 
