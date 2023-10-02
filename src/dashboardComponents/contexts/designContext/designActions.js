@@ -6,6 +6,8 @@ import path from "path";
 import os from "os";
 import cloudinary from "cloudinary";
 import { revalidatePath } from "next/cache";
+import axios from 'axios'
+
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -13,6 +15,10 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
+const designAxios = axios.create({
+  baseURL: process.env.API_URL,
+});
+ 
 export const fetchDesignById = async (id) => {
   try {
     const res = await fetch(`${process.env.API_URL}/api/design?id=${id}`);
@@ -158,33 +164,17 @@ export const uploadDesignData = async (formData) => {
       design: photo[0],
       description: formData.get("description"),
     };
-    
-    return {data: designData}
+    // console.log(designData)
 
-    // try {
-    //   const url = `${process.env.API_URL}/api/design`
-    //   const response = await fetch(url, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(designData),
-    //   });
-
-    //   if (response.status === 201) {
-    //     const data = await response.json();
-    //     console.log("Uploaded successfully!", response.status);
-    //     return { status: response.status, data };
-    //   } else {
-    //     // Use curly braces to return an object
-    //     return {
-    //       message: response.status === 409 ? "The user design exists!" : "Something went wrong!",
-    //       status: response.status,
-    //     };
-    //   }
-    // } catch (error) {
-    //   console.error("Upload error:", error);
-    // }    
+    try {
+      const response = await designAxios.post("/api/design", designData);
+      console.log("Uploaded successfully!", response.status);
+      if (response.status == 201) {
+        return { status: response.status, data: response.data };
+      }
+    } catch (error) {
+      console.error("Upload error:");
+    }
   } catch (err) {
     console.error(err);
   }
