@@ -166,17 +166,7 @@ export const uploadDesignData = async (formData) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          design: 
-                      {
-                          public_id: "designs/ssilru1cewei7w6jekcx",
-                          secure_url: "https://res.cloudinary.com/dhk9gwc4q/image/upload/v1696326554/designs/ssilru1cewei7w6jekcx.jpg",
-                          original_filename: "cb9e9032-4427-438c-a09c-1f8ef89881b2",
-                          original_extension: "jpeg",
-                          bytes: 892959
-                      },
-                  description: "test image"
-                  }),
+        body: JSON.stringify(designData),
       });
     
       if (response.status === 201) {
