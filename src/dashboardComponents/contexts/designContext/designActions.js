@@ -148,17 +148,15 @@ export const updateDesign = async (
 export const uploadDesignData = async (formData) => {
   try {
     const newFiles = await uploadPhotoToLocalStorage(formData);
-
-    // console.log(newFiles)
     const photo = await uploadPhotosToCloudinary(newFiles);
-    // console.log(photo)
+
+    // Clean up temporary files
     await Promise.all(newFiles.map((file) => fs.unlink(file.filepath)));
-    // console.log(photo[0])
+
     const designData = {
       design: photo[0],
       description: formData.get("description"),
     };
-    // console.log(designData)
 
     try {
       const response = await fetch(`${process.env.API_URL}/api/design`, {
@@ -168,27 +166,27 @@ export const uploadDesignData = async (formData) => {
         },
         body: JSON.stringify(designData),
       });
-    
+
       if (response.status === 201) {
         const data = await response.json();
         console.log("Uploaded successfully!", response.status);
         return { status: response.status, data };
       } else {
-        // Use curly braces to return an object
-        return {
-          message: response.status === 409 ? "The user design exists!" : "Something went wrong!",
-          status: response.status,
-        };
+        // Handle error responses
+        const errorMessage =
+          response.status === 409 ? "The user design exists!" : "Something went wrong!";
+        console.error(errorMessage);
+        return { status: response.status, message: errorMessage };
       }
     } catch (error) {
       console.error("Upload error:", error);
-    }    
+      return { status: 500, message: "Internal server error" };
+    }
   } catch (err) {
     console.error(err);
+    return { status: 500, message: "Upload failed" };
   }
-
 };
-
 
 export async function deleteDesign(id, design_public_id) {
   try {
