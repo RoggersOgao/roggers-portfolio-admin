@@ -31,8 +31,9 @@ function EditProjectForm({ projectData, session }) {
   const formRef = useRef();
   const selectRef = useRef(null);
   const router = useRouter();
-
+  
   useEffect(() => {
+    router.refresh()
     setForm({
       projectName: projectData.projectName,
       projectDescription: projectData.projectDescription,

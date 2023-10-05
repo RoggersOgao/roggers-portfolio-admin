@@ -1,9 +1,13 @@
-import React from 'react'
+"use client"
+import React, { useEffect } from 'react'
 import styles from "./TopNav.module.scss"
 import Image from 'next/image'
+
 // import { CiLogout } from "react-icons/ci"
 function TopNav({ session }) {
-
+    useEffect(()=> {
+        router.refresh()
+      },[])
     return (
         <div className={styles.container}>
             <div className={styles.nav}>
