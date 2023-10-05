@@ -20,6 +20,7 @@ function Home({
   session
 }) {
 
+  const router = useRouter()
   useEffect(()=>{
     router.refresh()
   },[])
