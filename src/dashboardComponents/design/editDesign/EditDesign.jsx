@@ -38,7 +38,6 @@ function EditDesign({designData, session, designPhoto_public_id}) {
   // console.log(designData)
   useEffect(() => {
     // Update the form state with the description from designData
-    router.refresh()
     setForm({
       description: designData.description,
     });

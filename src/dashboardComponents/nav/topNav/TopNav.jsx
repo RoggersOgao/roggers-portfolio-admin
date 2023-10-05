@@ -2,9 +2,11 @@
 import React, { useEffect } from 'react'
 import styles from "./TopNav.module.scss"
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 // import { CiLogout } from "react-icons/ci"
 function TopNav({ session }) {
+    const router = useRouter()
     useEffect(()=> {
         router.refresh()
       },[])

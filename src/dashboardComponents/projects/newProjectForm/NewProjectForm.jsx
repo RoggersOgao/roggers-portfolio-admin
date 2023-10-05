@@ -29,9 +29,6 @@ function NewProjectForm({session}) {
   const selectRef = useRef(null);
   const router = useRouter();
 
-  useEffect(()=> {
-    router.refresh()
-  },[])
   const setField = (value, field) => {
     setForm({
       ...form,
