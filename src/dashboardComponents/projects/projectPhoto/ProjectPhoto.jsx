@@ -35,8 +35,8 @@ function ProjectPhoto({ project, loading }) {
               <Image
                 src={photo[0]}
                 alt={photo[0]}
-                width={1200}
-                height={756}
+                width={1700}
+                height={1000}
                 quality={100}
                 className={styles.img}
                 loading="lazy"

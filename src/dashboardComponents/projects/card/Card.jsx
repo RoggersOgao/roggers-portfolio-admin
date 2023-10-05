@@ -110,8 +110,8 @@ function Card({ project, id }) {
           <Image
             src={coverPhoto[0]}
             alt="project called Image photography"
-            width={720}
-            height={400}
+            width={1520}
+            height={1000}
             quality={100}
             loading="lazy"
             className={styles.img}
