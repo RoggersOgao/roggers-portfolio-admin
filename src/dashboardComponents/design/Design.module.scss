@@ -94,6 +94,7 @@
                     break-inside: avoid;
                     position: relative;
                     transition:all .3s ease-in-out;
+                    box-shadow: 0 4px 12px -2px rgb(6, 6, 6);
 
                     &:hover>.imageDescription {
                         display: flex;
