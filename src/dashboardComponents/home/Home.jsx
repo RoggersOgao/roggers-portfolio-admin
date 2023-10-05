@@ -1,9 +1,10 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styles from "./Home.module.scss";
 import { HiOutlineCube } from "react-icons/hi";
 import { GiEagleHead } from "react-icons/gi";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ResponsiveCalendar } from "@nivo/calendar";
 // import { data } from "./data";
 import { SiAltiumdesigner, SiCodeproject, SiMailchimp } from "react-icons/si";
@@ -19,7 +20,9 @@ function Home({
   session
 }) {
 
-
+  useEffect(()=>{
+    router.refresh()
+  },[])
 
   const numberOfDesigns = designs.designs
   const numberOfProjects = projects.projects

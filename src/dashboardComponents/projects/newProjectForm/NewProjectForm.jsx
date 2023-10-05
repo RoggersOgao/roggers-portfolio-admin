@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./NewProjectForm.module.scss";
 import Dropzone from "./dropzone/Dropzone";
 import { tech } from "./technologies";
@@ -37,6 +37,9 @@ function NewProjectForm({session}) {
   };
   // validation of the fields
 
+  useEffect(()=>{
+    router.refresh()
+  },[])
   const validateField = (name, value) => {
     const errors = { ...formErrors };
 

@@ -33,6 +33,9 @@ function Design({ designs, session }) {
   // console.log(designPublicId[1])
   const router = useRouter();
   // handle delete function
+  useEffect(()=>{
+    router.refresh()
+  },[])
 
   const handleDelete = async (id, designPublic_id) => {
     const userConfirmed = window.confirm(

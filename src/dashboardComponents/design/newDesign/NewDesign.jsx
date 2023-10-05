@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import styles from "./NewDesign.module.scss";
 import Dropzone from "./dropzone/Dropzone";
 import { AnimatePresence, motion } from "framer-motion";
@@ -32,7 +32,9 @@ function NewDesign({ session }) {
     });
   };
   // validation of the fields
-
+  useEffect(()=>{
+    router.refresh()
+  },[])
   const validateField = (name, value) => {
     const errors = { ...formErrors };
 

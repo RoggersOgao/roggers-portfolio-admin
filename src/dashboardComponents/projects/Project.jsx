@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 function Project({ project, session }) {
   const router = useRouter();
   
-
   useEffect(() => {
     router.refresh();
   }, []);

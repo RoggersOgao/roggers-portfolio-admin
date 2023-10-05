@@ -33,6 +33,7 @@ function EditProjectForm({ projectData, session }) {
   const router = useRouter();
 
   useEffect(() => {
+    router.refresh()
     setForm({
       projectName: projectData.projectName,
       projectDescription: projectData.projectDescription,
