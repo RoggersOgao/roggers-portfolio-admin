@@ -1,16 +1,23 @@
 "use client"
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from "./TopNav.module.scss"
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 
 // import { CiLogout } from "react-icons/ci"
 function TopNav({ session }) {
-    const router = useRouter()
-    useEffect(()=> {
-        router.refresh()
-      },[])
-    return (
+    const [loading, setLoading] = useState(session);
+
+    useEffect(() => {
+        if (!session) {
+            // Simulate loading delay for 2 seconds (replace with your actual data fetching logic)
+            setTimeout(() => {
+                setLoading(false);
+            }, 2000);
+        }
+    }, [session]);
+
+
+    return loading ? (
         <div className={styles.container}>
             <div className={styles.nav}>
                 <div className={styles.navLeft}>
@@ -55,7 +62,15 @@ function TopNav({ session }) {
                 </div>
             </div>
         </div>
-    )
+    ): <div className={styles.loadingNav}>
+        <div className={styles.left}>
+            <div className={styles.name}></div>
+        </div>
+        <div className={styles.right}>
+            <div className={styles.nameLoading}></div>
+            <div className={styles.imageLoading}></div>
+        </div>
+    </div>
 }
 
 export default TopNav
