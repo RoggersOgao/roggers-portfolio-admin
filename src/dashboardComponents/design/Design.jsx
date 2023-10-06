@@ -106,7 +106,7 @@ function Design({ designs, session }) {
                 onMouseEnter={() => setActionsVisible(index1)}
                 onMouseLeave={() => setActionsVisible(-1)}
               >
-                {item.design.map((item, index) => (
+                {item?.design.map((item, index) => (
                   <div key={index} className={styles.icont}>
                     <Image
                       src={item.secure_url}
