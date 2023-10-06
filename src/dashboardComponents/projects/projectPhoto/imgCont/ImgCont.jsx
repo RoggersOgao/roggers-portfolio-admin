@@ -76,7 +76,6 @@ function ImgCont() {
           </div>
           <div className={styles.imgProject}>
             <ProjectPhoto project={state.projects} loading={state.isLoading} />
-            img
           </div>
         </div>
       )}
