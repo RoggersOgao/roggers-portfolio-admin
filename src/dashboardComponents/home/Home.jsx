@@ -126,18 +126,17 @@ function Home({
                 <Image
                   src={session?.user?.image}
                   alt="profile picture"
-                  width={200}
-                  height={200}
+                  width={1200}
+                  height={1200}
                   quality={100}
-                  unoptimized={true}
                   className={styles.image}
                 />
               ) : (
                 <Image
                   src="https://res.cloudinary.com/dhk9gwc4q/image/upload/v1690988668/samples/animals/three-dogs.jpg"
                   alt="profile picture"
-                  width={200}
-                  height={200}
+                  width={1200}
+                  height={1200}
                   quality={100}
                   className={styles.image}
                 />

@@ -407,9 +407,8 @@ function Settings({session}) {
                   <Image
                     src={file.preview ? file.preview : file.secure_url}
                     alt={`Image ${index + 1}`} // You might want to add a meaningful alt text
-                    width={100}
-                    height={100}
-                    unoptimized={true}
+                    width={1200}
+                    height={1200}
                     className={styles.avatar}
                     loading="lazy"
                   />

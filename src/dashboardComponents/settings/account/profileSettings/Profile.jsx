@@ -619,7 +619,7 @@ function Profile() {
                             width={200}
                             height={200}
                             quality={100}
-                            className={styles.image}
+                            className={styles.avatar}
                           />
                         ) : (
                           <Image
