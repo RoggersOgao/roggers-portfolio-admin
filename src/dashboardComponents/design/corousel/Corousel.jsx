@@ -7,11 +7,7 @@ import DesignContext from "@/dashboardComponents/contexts/designContext/DesignCo
 import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
 function Corousel({design}) {
   const {state} = useContext(DesignContext)
-  const [loading, setLoading ] = useState(false)
-
-  const handleLoadingState = () => {
-    setLoading(false)
-  }
+  const [loading, setLoading ] = useState(true)
   
   const [index, setIndex] = useState(state.designIndex);
   const images = design.map((item)=>item.design[0])
@@ -19,11 +15,17 @@ function Corousel({design}) {
 
   const handlePrevClick = () => {
     setIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    setLoading(true)
   };
 
   const handleNextClick = () => {
     setIndex((prevIndex) => Math.min(prevIndex + 1, images.length - 1));
+    setLoading(true)
   };
+  // const handleLoadingState = () => {
+  //   setLoading(false)
+  // }
+  console.log(loading)
   const handleKeyDown = (event) => {
     if (event.key === 'ArrowLeft') {
       handlePrevClick();
@@ -31,6 +33,8 @@ function Corousel({design}) {
       handleNextClick();
     }
   };
+
+  let currentImage = images[index];
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -40,7 +44,7 @@ function Corousel({design}) {
     };
   }, [handleKeyDown]);
 
-  const currentImage = images[index];
+  
   return (
     <div className={styles.container}>
       <div className={styles.contentLeft}>
@@ -66,22 +70,25 @@ function Corousel({design}) {
           </div>
         </div>
         <div className={styles.imgCont}>
-          {!loading ? (
+          
             <Image
               src={currentImage.secure_url}
               alt={currentImage.original_filename}
-              width={600}
-              height={600}
+              width={1200}
+              height={1200}
               className={styles.img}
               placeholder="blur"
-              onLoadingComplete={handleLoadingState}
+              onLoadingComplete={()=>setLoading(false)}
               blurDataURL={`data:image/jpeg;base:64,${currentImage.secure_url}`}
+              style={{display: loading ? "none": "block"}}
             />
-          ): (
+          {loading && (
             <div className={styles.loader}>
               <CircularBar />
+              <p>loading image...</p>
             </div>
           )}
+          
         </div>
 
         <div className={styles.carouselNnav}>
