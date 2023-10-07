@@ -237,64 +237,61 @@ export const options = {
             }
             return true;
           }
-        case "google":
-          try {
-            const gguser = await axios.get(
-              `${process.env.API_URL}/api/auth/googleoauthusers?email=${profile.email}`
-            );
-            const pduser = gguser.data.users;
-            // Check if the user exists based on the response data
-            if (pduser) {
-              const updateUserData = {
-                name: profile.name,
-                email: profile.email,
-                image: profile.picture,
-                role: "user",
-              };
-
-              await updateUser(
-                `${process.env.API_URL}/api/users?email=${profile.email}`,
-                updateUserData
+          case "google":
+            try {
+              const gguser = await axios.get(
+                `${process.env.API_URL}/api/auth/googleoauthusers?email=${profile.email}`
               );
-            }
-            return true;
-          } catch (error) {
-            // Handle the "not found" error here
-            if (error.response.status === 404) {
-              try {
-
+          
+              if (Array.isArray(gguser.data.users) && gguser.data.users.length > 0) {
+                // User exists, update their information
+                const updateUserData = {
+                  name: profile.name,
+                  email: profile.email,
+                  image: profile.picture,
+                  role: "user",
+                };
+          
+                await updateUser(
+                  `${process.env.API_URL}/api/users?email=${profile.email}`,
+                  updateUserData
+                );
+              } else {
+                // User does not exist, create a new user
                 const ggUserData = {
                   name: profile.name,
-                    email: profile.email,
-                    image: profile.picture,
-                    locale: profile.locale,
-                    role: "user",
-                }
+                  email: profile.email,
+                  image: profile.picture,
+                  locale: profile.locale,
+                  role: "user",
+                };
+          
                 await createUser(
                   `${process.env.API_URL}/api/auth/googleoauthusers`,
                   ggUserData
                 );
-                
+          
                 const newUser = {
                   name: profile.name,
                   email: profile.email,
                   image: profile.picture,
                   role: "user",
                 };
+          
                 await createUser(
                   `${process.env.API_URL}/api/users`,
                   newUser
                 );
-              } catch (err) {
-                // throw new Error(err.message);
               }
-              // Handle the case when the user is not found in your API
-            } else {
-              return NextResponse.json(error, { status: 500 });
+          
+              return true;
+            } catch (error) {
+              // Handle errors here
+              console.error(error);
+          
+              return NextResponse.error("Internal Server Error", { status: 500 });
             }
-            return true;
-          }
-
+          
         // If user doesn't exist, create a new user
 
         case "credentials":
