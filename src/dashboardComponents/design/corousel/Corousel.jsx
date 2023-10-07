@@ -12,7 +12,7 @@ function Corousel({ design }) {
   const [index, setIndex] = useState(state.designIndex);
   const images = design.map((item) => item.design[0]);
   const description = design.map((item) => item.description);
-  const [imageLoading, setImageLoading] = useState(true); 
+  const [imageLoading, setImageLoading] = useState(false); 
 
   const handlePrevClick = () => {
     setIndex((prevIndex) => Math.max(prevIndex - 1, 0));
