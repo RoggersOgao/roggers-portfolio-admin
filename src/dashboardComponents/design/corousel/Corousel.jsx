@@ -14,10 +14,6 @@ function Corousel({ design }) {
   const description = design.map((item) => item.description);
   const [imageLoading, setImageLoading] = useState(true); 
 
-  useEffect(() => {
-    // Whenever the index changes, set loading to true
-    setLoading(true);
-  }, [index]);
   const handlePrevClick = () => {
     setIndex((prevIndex) => Math.max(prevIndex - 1, 0));
     setImageLoading(true); 
@@ -31,7 +27,6 @@ function Corousel({ design }) {
     setLoading(false);
     setImageLoading(false); 
   };
-  console.log(loading);
   const handleKeyDown = (event) => {
     if (event.key === "ArrowLeft") {
       handlePrevClick();
@@ -84,7 +79,7 @@ function Corousel({ design }) {
               placeholder="blur"
               onLoadingComplete={handleImageLoad}
               blurDataURL={`data:image/jpeg;base:64,${currentImage.secure_url}`}
-              style={{ display: loading ? "none" : "block" }}
+              style={{ display: imageLoading ? "none" : "block" }}
             />
             {imageLoading && (
               <div className={styles.loader}>
