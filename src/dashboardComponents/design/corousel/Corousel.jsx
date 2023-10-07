@@ -7,10 +7,10 @@ import DesignContext from "@/dashboardComponents/contexts/designContext/DesignCo
 import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
 function Corousel({design}) {
   const {state} = useContext(DesignContext)
-  const [loading, setLoadng ] = useState(false)
+  const [loading, setLoading ] = useState(false)
 
   const handleLoadingState = () => {
-    setLoadng(false)
+    setLoading(false)
   }
   
   const [index, setIndex] = useState(state.designIndex);
@@ -66,7 +66,7 @@ function Corousel({design}) {
           </div>
         </div>
         <div className={styles.imgCont}>
-          {loading ? (
+          {!loading ? (
             <Image
               src={currentImage.secure_url}
               alt={currentImage.original_filename}
@@ -78,7 +78,7 @@ function Corousel({design}) {
               blurDataURL={`data:image/jpeg;base:64,${currentImage.secure_url}`}
             />
           ): (
-            <div className={loader}>
+            <div className={styles.loader}>
               <CircularBar />
             </div>
           )}
