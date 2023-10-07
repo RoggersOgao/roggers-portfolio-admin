@@ -1,8 +1,16 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./ProjectPhoto.module.scss";
+import { SpinnerDiamond } from "spinners-react";
 
-function ProjectPhoto({ project, loading }) {
+function ProjectPhoto({ project }) {
+  const [loading, setLoading] = useState(true);
+
+  const handleImageLoading = () => {
+    setLoading(false);
+  };
+
   const photo = project.projectPhoto.map((item) => item.secure_url);
   // console.log(photo)
 
@@ -35,20 +43,30 @@ function ProjectPhoto({ project, loading }) {
               <Image
                 src={photo[0]}
                 alt={photo[0]}
-                width={1700}
-                height={7000}
+                fill
                 quality={100}
                 className={styles.img}
+                unoptimized={true}
                 loading="lazy"
+                onLoadingComplete={handleImageLoading}
                 placeholder="blur"
                 blurDataURL={`data:image/jpeg;base:64,${photo[0]}`}
               />
             ) : (
-              "loading..."
+              <div className={styles.loader}>
+                <SpinnerDiamond
+                  size={100}
+                  thickness={100}
+                  speed={100}
+                  color="rgba(255, 255, 255, 1)"
+                  secondaryColor="rgba(74, 172, 57, 1)"
+                />
+                <p>loading project...</p>
+              </div>
             )}
           </div>
         </div>
-        <div className={styles.contentRight}>{/* <p>rightside</p> */}</div>
+        {/* <div className={styles.contentRight}><p>rightside</p></div> */}
       </div>
     </div>
   );
