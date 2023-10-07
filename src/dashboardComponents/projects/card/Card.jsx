@@ -182,7 +182,9 @@ function Card({ project, id }) {
               <span>
                 <AiOutlineLink />
               </span>
+              <Link href={project.projectLink}>
               <p>{project.projectLink}</p>
+              </Link>
             </div>
           </div>
         </div>
