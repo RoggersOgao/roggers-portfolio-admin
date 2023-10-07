@@ -171,11 +171,10 @@ export const options = {
                 ],
                 role: "user",
               };
-              const updateOperation = { $set: updateUserData };
-
+          
               const updUser = await axios.put(
                 `${process.env.API_URL}/api/users?email=${profile.email}`,
-                updateOperation
+                updateUserData
               );
             }
             return true;
@@ -252,11 +251,10 @@ export const options = {
                 image: profile.picture,
                 role: "user",
               };
-              const updateOperation = { $set: updateUserData };
 
               await updateUser(
                 `${process.env.API_URL}/api/users?email=${profile.email}`,
-                updateOperation
+                updateUserData
               );
             }
             return true;
