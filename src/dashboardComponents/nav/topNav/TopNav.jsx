@@ -24,8 +24,9 @@ function TopNav({ session }) {
                     <Image
                         src="/assets/logo.png"
                         alt="intellisirn logo"
-                        width={80}
-                        height={40}
+                        width={800}
+                        height={400}
+                        unoptimized={true}
                         className={styles.logo}
                     />
                 </div>
@@ -44,6 +45,7 @@ function TopNav({ session }) {
                                     alt="profile Image"
                                     width={60}
                                     height={60}
+                                    unoptimized={true}
                                     className={styles.profile}
                                 />
                                 : (

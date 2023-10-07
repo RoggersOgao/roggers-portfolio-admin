@@ -628,6 +628,7 @@ function Profile() {
                             width={200}
                             height={200}
                             quality={100}
+                            unoptimized={true}
                             className={styles.image}
                           />
                         )

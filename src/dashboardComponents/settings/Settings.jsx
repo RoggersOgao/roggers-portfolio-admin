@@ -409,6 +409,7 @@ function Settings({session}) {
                     alt={`Image ${index + 1}`} // You might want to add a meaningful alt text
                     width={100}
                     height={100}
+                    unoptimized={true}
                     className={styles.avatar}
                     loading="lazy"
                   />
