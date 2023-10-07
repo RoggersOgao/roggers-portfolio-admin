@@ -5,7 +5,7 @@ import styles from "./ProjectPhoto.module.scss";
 import { SpinnerDiamond } from "spinners-react";
 
 function ProjectPhoto({ project }) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleImageLoading = () => {
     setLoading(false);
@@ -43,7 +43,8 @@ function ProjectPhoto({ project }) {
               <Image
                 src={photo[0]}
                 alt={photo[0]}
-                fill
+                width={1920}
+                height={8000}
                 quality={100}
                 className={styles.img}
                 unoptimized={true}
