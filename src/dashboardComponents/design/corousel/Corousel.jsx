@@ -4,8 +4,14 @@ import Image from "next/image";
 import styles from "./Corousel.module.scss";
 import {GiBroadheadArrow} from 'react-icons/gi'
 import DesignContext from "@/dashboardComponents/contexts/designContext/DesignContext";
+import CircularBar from "@/dashboardComponents/spinners/circularSpinner/CircularBar";
 function Corousel({design}) {
   const {state} = useContext(DesignContext)
+  const [loading, setLoadng ] = useState(false)
+
+  const handleLoadingState = () => {
+    setLoadng(false)
+  }
   
   const [index, setIndex] = useState(state.designIndex);
   const images = design.map((item)=>item.design[0])
@@ -60,15 +66,22 @@ function Corousel({design}) {
           </div>
         </div>
         <div className={styles.imgCont}>
-          <Image
-            src={currentImage.secure_url}
-            alt={currentImage.original_filename}
-            width={600}
-            height={600}
-            className={styles.img}
-            placeholder="blur"
-            blurDataURL={`data:image/jpeg;base:64,${currentImage.secure_url}`}
-          />
+          {loading ? (
+            <Image
+              src={currentImage.secure_url}
+              alt={currentImage.original_filename}
+              width={600}
+              height={600}
+              className={styles.img}
+              placeholder="blur"
+              onLoadingComplete={handleLoadingState}
+              blurDataURL={`data:image/jpeg;base:64,${currentImage.secure_url}`}
+            />
+          ): (
+            <div className={loader}>
+              <CircularBar />
+            </div>
+          )}
         </div>
 
         <div className={styles.carouselNnav}>
