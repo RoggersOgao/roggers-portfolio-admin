@@ -182,9 +182,9 @@ function Card({ project, id }) {
               <span>
                 <AiOutlineLink />
               </span>
-              <Link href={project.projectLink}>
+              <a href={project.projectLink} target="_blank" rel="noopener noreferrer">
               <p>{project.projectLink}</p>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
