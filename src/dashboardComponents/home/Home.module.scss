@@ -53,6 +53,7 @@
         gap: 2rem;
         min-height: 40rem;
         align-items: stretch;
+        border-bottom: .3px solid var(--border-grey);
 
         @include respond(tab-port) {
             flex-direction: column;
@@ -188,7 +189,6 @@
         .dash {
             flex: 7;
             max-height: 45rem;
-            border-bottom: .3px solid var(--border-grey);
 
             .desc {
                 .title {
@@ -279,7 +279,7 @@
                             height: 100%;
                             background-size: cover;
                             position: absolute;
-                            filter: blur(40px) opacity(.9);
+                            filter: blur(40px) opacity(.3);
                             z-index: -1;
                         }
 
@@ -351,7 +351,7 @@
                             height: 100%;
                             background-size: cover;
                             position: absolute;
-                            filter: blur(40px) opacity(.9);
+                            filter: blur(40px) opacity(.3);
                             z-index: -1;
                         }
 
