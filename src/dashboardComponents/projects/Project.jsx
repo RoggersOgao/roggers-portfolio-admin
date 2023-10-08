@@ -33,7 +33,7 @@ function Project({ project, session }) {
         </div>
         <div className={styles.bottom}>
           <div className={styles.card}>
-            {project?.projects?.reverse().map((item, index) => (
+            {project?.projects?.map((item, index) => (
               <div key={index}>
                 <Card project={item} id={index}/>
               </div>
