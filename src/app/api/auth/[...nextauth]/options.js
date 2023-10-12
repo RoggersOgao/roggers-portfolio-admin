@@ -19,7 +19,7 @@ const getUserByEmail = async (url) => {
 
 const updateUser = async (updateUrl, userData) => {
   try {
-    await axios.put(updateUrl, userData);
+    await axios.patch(updateUrl, userData);
   } catch (error) {
     console.error(error.response.data.details || error);
     throw new Error(error.message);
@@ -173,7 +173,7 @@ export const options = {
                 role: "user",
               };
 
-              const updUser = await axios.put(
+              const updUser = await axios.patch(
                 `${process.env.API_URL}/api/users?email=${profile.email}`,
                 updateUserData
               );
