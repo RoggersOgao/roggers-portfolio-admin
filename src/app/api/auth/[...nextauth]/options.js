@@ -157,7 +157,7 @@ export const options = {
           
             const pduser = gbuser.data.user;
           
-            if (pduser) {
+            if (Array.isArray(pduser) && pduser.length > 0) {
               // User exists, update their information
               const updateUserData = {
                 name: profile.name,
