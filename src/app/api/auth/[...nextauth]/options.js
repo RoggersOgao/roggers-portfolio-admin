@@ -150,119 +150,110 @@ export const options = {
     async signIn({ profile, account, user }) {
       switch (account.provider) {
         case "github":
-          try {
-            const gbuser = await axiosInstance.get(
-              `${process.env.API_URL}/api/auth/githuboauthusers?email=${profile.email}`
-            );
-          
-            const pduser = gbuser.data.user;
-          
-            if (pduser) {
-              // User exists, update their information
-              const updateUserData = {
-                name: profile.name || pduser.name,
-                email: profile.email || pduser.email,
-                image: profile.avatar_url || pduser.image,
-                role: "user",
-              };
-          
-              if (profile.twitter_username !== "null") {
-                updateUserData.socials = [
-                  {
-                    ...pduser.socials[0],
-                    twitter: `https://twitter.com/${profile.twitter_username}`,
-                  },
-                ];
-              }
-          
-              if (profile.location || profile.company || profile.bio !== "null") {
-                updateUserData.personalInfo = [
-                  {
-                    location: profile.location || pduser.personalInfo[0].location,
-                    company: profile.company || pduser.personalInfo[0].company,
-                    bio: profile.bio === "null" ? "" : profile.bio,
-                  },
-                ];
-              }
-          
-              const updUser = await axiosInstance.patch(
-                `${process.env.API_URL}/api/users?email=${profile.email}`,
-                updateUserData
-              );
-            } else {
-              // User does not exist, create a new user
-              const userData = {
-                email: profile.email,
-                name: profile.name,
-                image: profile.avatar_url,
-                type: profile.type,
-                site_admin: profile.site_admin,
-                company: profile.company,
-                blog: profile.blog,
-                location: profile.location,
-                hireable: profile.hireable,
-                bio: profile.bio === "null" ? "" : profile.bio,
-                twitter_username: profile.twitter_username === "null" ? "" : `https://twitter.com/${profile.twitter_username}`,
-                public_repos: profile.public_repos,
-                public_gists: profile.public_gists,
-                total_private_repos: profile.total_private_repos,
-                followers: profile.followers,
-                following: profile.following,
-                role: "user",
-              };
-          
-              const res = await axiosInstance.post(
-                `${process.env.API_URL}/api/auth/githuboauthusers`,
-                userData
-              );
-          
-              const newUser = {
-                name: profile.name,
-                email: profile.email,
-                image: profile.avatar_url,
-                socials: [
-                  {
-                    twitter: profile.twitter_username === "null" ? "" : `https://twitter.com/${profile.twitter_username}`,
-                  },
-                ],
-                personalInfo: [
-                  {
-                    location: profile.location,
-                    company: profile.company,
-                    bio: profile.bio === "null" ? "" : profile.bio,
-                  },
-                ],
-                role: "user",
-              };
-          
-              const response = await createUser(
-                `${process.env.API_URL}/api/users`,
-                newUser
-              );
-            }
-          
-            return true;
-          } catch (error) {
-            // Handle errors here
-            console.error(error);
-          
-            return NextResponse.error("Internal Server Error", { status: 500 });
-          }          
+  try {
+    const gbuser = await axiosInstance.get(
+      `${process.env.API_URL}/api/auth/githuboauthusers?email=${profile.email}`
+    );
+
+    const pduser = gbuser.data.user;
+
+    if (Array.isArray(pduser)) {
+      // User exists, update their information
+      const updateUserData = {
+        name: profile.name,
+        email: profile.email,
+        image: profile.avatar_url,
+        socials: [
+          {
+            twitter: profile.twitter_username === "null" ? "" : `https://twitter.com/${profile.twitter_username}`,
+          },
+        ],
+        personalInfo: [
+          {
+            location: profile.location,
+            company: profile.company,
+            bio: profile.bio === "null" ? "" : profile.bio,
+          },
+        ],
+        role: "user",
+      };
+
+      const updUser = await axiosInstance.patch(
+        `${process.env.API_URL}/api/users?email=${profile.email}`,
+        updateUserData
+      );
+    } else {
+      // User does not exist, create a new user
+      const userData = {
+        email: profile.email,
+        name: profile.name,
+        image: profile.avatar_url,
+        type: profile.type,
+        site_admin: profile.site_admin,
+        company: profile.company,
+        blog: profile.blog,
+        location: profile.location,
+        hireable: profile.hireable,
+        bio: profile.bio,
+        twitter_username: profile.twitter_username,
+        public_repos: profile.public_repos,
+        public_gists: profile.public_gists,
+        total_private_repos: profile.total_private_repos,
+        followers: profile.followers,
+        following: profile.following,
+        role: "user",
+      };
+
+      const res = await axiosInstance.post(
+        `${process.env.API_URL}/api/auth/githuboauthusers`,
+        userData
+      );
+
+      const newUser = {
+        name: profile.name,
+        email: profile.email,
+        image: profile.avatar_url,
+        socials: [
+          {
+            twitter: profile.twitter_username === "null" ? "" : `https://twitter.com/${profile.twitter_username}`,
+          },
+        ],
+        personalInfo: [
+          {
+            location: profile.location,
+            company: profile.company,
+            bio: profile.bio || "",
+          },
+        ],
+        role: "user",
+      };
+
+      const response = await createUser(
+        `${process.env.API_URL}/api/users`,
+        newUser
+      );
+    }
+
+    return true;
+  } catch (error) {
+    // Handle errors here
+    console.error(error);
+
+    return NextResponse.error("Internal Server Error", { status: 500 });
+  }
 
         case "google":
           try {
+            // Check if the user exists in your database
             const gguser = await axiosInstance.get(`${process.env.API_URL}/api/auth/googleoauthusers?email=${profile.email}`);
             console.log("Google User Response Status:", gguser.status);
           
             const userData = {
-              name: profile.name || undefined,
-              email: profile.email || undefined,
-              image: profile.picture || undefined,
+              name: profile.name,
+              email: profile.email,
+              image: profile.picture,
               role: "user",
             };
-          
-            // Remove undefined values
-            Object.keys(userData).forEach((key) => userData[key] === undefined && delete userData[key]);
           
             if (Array.isArray(gguser.data.users) && gguser.data.users.length > 0) {
               // User exists, update their information
@@ -270,15 +261,11 @@ export const options = {
               console.log("User updated:", updatedUser.data);
             } else {
               // User does not exist, create a new user
-              if (Object.keys(userData).length > 0) {
-                await createUser(`${process.env.API_URL}/api/users`, userData);
-              }
-              if (Object.keys(userData).length > 0) {
-                await axiosInstance.post(`${process.env.API_URL}/api/auth/googleoauthusers`, {
-                  ...userData,
-                  locale: profile.locale,
-                });
-              }
+              await createUser(`${process.env.API_URL}/api/users`, userData);
+              await axiosInstance.post(`${process.env.API_URL}/api/auth/googleoauthusers`, {
+                ...userData,
+                locale: profile.locale,
+              });
               console.log("New user created");
             }
           
@@ -289,8 +276,8 @@ export const options = {
           
             // Customize the error response as needed
             return { error: "Internal Server Error", status: 500 };
-          }
-          
+          }          
+
         // If user doesn't exist, create a new user
 
         case "credentials":
