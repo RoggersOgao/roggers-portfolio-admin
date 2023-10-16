@@ -150,97 +150,106 @@ export const options = {
     async signIn({ profile, account, user }) {
       switch (account.provider) {
         case "github":
-  try {
-    const gbuser = await axiosInstance.get(
-      `${process.env.API_URL}/api/auth/githuboauthusers?email=${profile.email}`
-    );
+          try {
+            const gbuser = await axiosInstance.get(
+              `${process.env.API_URL}/api/auth/githuboauthusers?email=${profile.email}`
+            );
 
-    const pduser = gbuser.data.user;
+            const pduser = gbuser.data.user;
 
-    if (Array.isArray(pduser)) {
-      // User exists, update their information
-      const updateUserData = {
-        name: profile.name,
-        email: profile.email,
-        image: profile.avatar_url,
-        socials: [
-          {
-            twitter: profile.twitter_username === "null" ? "" : `https://twitter.com/${profile.twitter_username}`,
-          },
-        ],
-        personalInfo: [
-          {
-            location: profile.location,
-            company: profile.company,
-            bio: profile.bio === "null" ? "" : profile.bio,
-          },
-        ],
-        role: "user",
-      };
+            if (pduser) {
+              // User exists, update their information
+              const updateUserData = {
+                ...pduser,
+                name: profile.name,
+                email: profile.email,
+                image: profile.avatar_url,
+                socials: [
+                  {
+                    ...gbuser.socials[0].toObject(),
+                    twitter:
+                      profile.twitter_username === "null"
+                        ? ""
+                        : `https://twitter.com/${profile.twitter_username}`,
+                  },
+                ],
+                personalInfo: [
+                  {
+                    ...gbuser.personalInfo[0].toObject(),
+                    location: profile.location,
+                    company: profile.company,
+                    bio: profile.bio === "null" ? "" : profile.bio,
+                  },
+                ],
+                role: "user",
+              };
 
-      const updUser = await axiosInstance.patch(
-        `${process.env.API_URL}/api/users?email=${profile.email}`,
-        updateUserData
-      );
-    } else {
-      // User does not exist, create a new user
-      const userData = {
-        email: profile.email,
-        name: profile.name,
-        image: profile.avatar_url,
-        type: profile.type,
-        site_admin: profile.site_admin,
-        company: profile.company,
-        blog: profile.blog,
-        location: profile.location,
-        hireable: profile.hireable,
-        bio: profile.bio,
-        twitter_username: profile.twitter_username,
-        public_repos: profile.public_repos,
-        public_gists: profile.public_gists,
-        total_private_repos: profile.total_private_repos,
-        followers: profile.followers,
-        following: profile.following,
-        role: "user",
-      };
+              const updUser = await axiosInstance.patch(
+                `${process.env.API_URL}/api/users?email=${profile.email}`,
+                updateUserData
+              );
+            } else {
+              // User does not exist, create a new user
+              const userData = {
+                email: profile.email,
+                name: profile.name,
+                image: profile.avatar_url,
+                type: profile.type,
+                site_admin: profile.site_admin,
+                company: profile.company,
+                blog: profile.blog,
+                location: profile.location,
+                hireable: profile.hireable,
+                bio: profile.bio,
+                twitter_username: profile.twitter_username,
+                public_repos: profile.public_repos,
+                public_gists: profile.public_gists,
+                total_private_repos: profile.total_private_repos,
+                followers: profile.followers,
+                following: profile.following,
+                role: "user",
+              };
 
-      const res = await axiosInstance.post(
-        `${process.env.API_URL}/api/auth/githuboauthusers`,
-        userData
-      );
+              const res = await axiosInstance.post(
+                `${process.env.API_URL}/api/auth/githuboauthusers`,
+                userData
+              );
 
-      const newUser = {
-        name: profile.name,
-        email: profile.email,
-        image: profile.avatar_url,
-        socials: [
-          {
-            twitter: profile.twitter_username === "null" ? "" : `https://twitter.com/${profile.twitter_username}`,
-          },
-        ],
-        personalInfo: [
-          {
-            location: profile.location,
-            company: profile.company,
-            bio: profile.bio || "",
-          },
-        ],
-        role: "user",
-      };
+              const newUser = {
+                name: profile.name,
+                email: profile.email,
+                image: profile.avatar_url,
+                socials: [
+                  {
+                    twitter:
+                      profile.twitter_username === "null"
+                        ? ""
+                        : `https://twitter.com/${profile.twitter_username}`,
+                  },
+                ],
+                personalInfo: [
+                  {
+                    location: profile.location,
+                    company: profile.company,
+                    bio: profile.bio || "",
+                  },
+                ],
+                role: "user",
+              };
 
-      const response = await createUser(
-        `${process.env.API_URL}/api/users`,
-        newUser
-      );
-    }
+              const response = await createUser(
+                `${process.env.API_URL}/api/users`,
+                newUser
+              );
+            }
 
-    return true;
-  } catch (error) {
-    // Handle errors here
-    console.error(error);
+            return true;
+          } catch (error) {
+            // Handle errors here
+            console.error(error);
 
-    return NextResponse.error("Internal Server Error", { status: 500 });
-  }
+            return NextResponse.error("Internal Server Error", { status: 500 });
+          }
 
         case "google":
           try {
