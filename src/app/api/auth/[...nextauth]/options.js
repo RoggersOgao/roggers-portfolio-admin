@@ -255,7 +255,6 @@ export const options = {
           try {
             // Check if the user exists in your database
             const gguser = await axiosInstance.get(`${process.env.API_URL}/api/auth/googleoauthusers?email=${profile.email}`);
-            console.log("Google User Response Status:", gguser.response.status);
           
             const userData = {
               name: profile.name,
