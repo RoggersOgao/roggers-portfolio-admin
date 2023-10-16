@@ -15,7 +15,7 @@ const axiosInstance = axios.create({
 
 const getUserByEmail = async (url) => {
   try {
-    const response = await axiosInstance.get(url);
+    const response = await axios.get(url);
     return response.data.user || response.data.users;
   } catch (error) {
     if (error.response && error.response.status === 404) {
@@ -160,13 +160,11 @@ export const options = {
             if (pduser) {
               // User exists, update their information
               const updateUserData = {
-                ...pduser,
                 name: profile.name,
                 email: profile.email,
                 image: profile.avatar_url,
                 socials: [
                   {
-                    ...gbuser.socials[0].toObject(),
                     twitter:
                       profile.twitter_username === "null"
                         ? ""
@@ -175,7 +173,6 @@ export const options = {
                 ],
                 personalInfo: [
                   {
-                    ...gbuser.personalInfo[0].toObject(),
                     location: profile.location,
                     company: profile.company,
                     bio: profile.bio === "null" ? "" : profile.bio,
@@ -184,7 +181,7 @@ export const options = {
                 role: "user",
               };
 
-              const updUser = await axiosInstance.patch(
+              await axiosInstance.put(
                 `${process.env.API_URL}/api/users?email=${profile.email}`,
                 updateUserData
               );
@@ -210,7 +207,7 @@ export const options = {
                 role: "user",
               };
 
-              const res = await axiosInstance.post(
+              await axiosInstance.post(
                 `${process.env.API_URL}/api/auth/githuboauthusers`,
                 userData
               );
@@ -237,7 +234,7 @@ export const options = {
                 role: "user",
               };
 
-              const response = await createUser(
+              await createUser(
                 `${process.env.API_URL}/api/users`,
                 newUser
               );
