@@ -154,9 +154,9 @@ export const options = {
             const gbuser = await axiosInstance.get(
               `${process.env.API_URL}/api/auth/githuboauthusers?email=${profile.email}`
             );
-
+          
             const pduser = gbuser.data.user;
-
+          
             if (pduser) {
               // User exists, update their information
               const updateUserData = {
@@ -165,22 +165,19 @@ export const options = {
                 image: profile.avatar_url,
                 socials: [
                   {
-                    twitter:
-                      profile.twitter_username === "null"
-                        ? ""
-                        : `https://twitter.com/${profile.twitter_username}`,
+                    twitter: profile.twitter_username !== "null" && profile.twitter_username
+                      ? `https://twitter.com/${profile.twitter_username}`
+                      : "",
                   },
                 ],
-                personalInfo: [
-                  {
-                    location: profile.location,
-                    company: profile.company,
-                    bio: profile.bio === "null" ? "" : profile.bio,
-                  },
-                ],
+                personalInfo: {
+                  location: profile.location,
+                  company: profile.company,
+                  bio: profile.bio !== "null" ? profile.bio : "",
+                },
                 role: "user",
               };
-
+          
               await axiosInstance.put(
                 `${process.env.API_URL}/api/users?email=${profile.email}`,
                 updateUserData
@@ -197,8 +194,10 @@ export const options = {
                 blog: profile.blog,
                 location: profile.location,
                 hireable: profile.hireable,
-                bio: profile.bio,
-                twitter_username: profile.twitter_username,
+                bio: profile.bio !== "null" ? profile.bio : "",
+                twitter_username: profile.twitter_username !== "null" && profile.twitter_username
+                  ? `https://twitter.com/${profile.twitter_username}`
+                  : "",
                 public_repos: profile.public_repos,
                 public_gists: profile.public_gists,
                 total_private_repos: profile.total_private_repos,
@@ -206,47 +205,45 @@ export const options = {
                 following: profile.following,
                 role: "user",
               };
-
+          
               await axiosInstance.post(
                 `${process.env.API_URL}/api/auth/githuboauthusers`,
                 userData
               );
-
+          
               const newUser = {
                 name: profile.name,
                 email: profile.email,
                 image: profile.avatar_url,
                 socials: [
                   {
-                    twitter:
-                      profile.twitter_username === "null"
-                        ? ""
-                        : `https://twitter.com/${profile.twitter_username}`,
+                    twitter: profile.twitter_username !== "null" && profile.twitter_username
+                      ? `https://twitter.com/${profile.twitter_username}`
+                      : "",
                   },
                 ],
-                personalInfo: [
-                  {
-                    location: profile.location,
-                    company: profile.company,
-                    bio: profile.bio || "",
-                  },
-                ],
+                personalInfo: {
+                  location: profile.location,
+                  company: profile.company,
+                  bio: profile.bio || "",
+                },
                 role: "user",
               };
-
+          
               await createUser(
                 `${process.env.API_URL}/api/users`,
                 newUser
               );
             }
-
+          
             return true;
           } catch (error) {
             // Handle errors here
             console.error(error);
-
+          
             return NextResponse.error("Internal Server Error", { status: 500 });
           }
+          
 
         case "google":
           try {
