@@ -5,8 +5,6 @@ import { compare } from "bcryptjs";
 import { NextResponse } from "next/server";
 import axios from "axios";
 
-
-
 const axiosInstance = axios.create({
   validateStatus: function (status) {
     return status >= 200 && status < 500; // Treat 404 as a valid status
@@ -27,7 +25,7 @@ const getUserByEmail = async (url) => {
 
 const updateUser = async (updateUrl, userData) => {
   try {
-    await axios.put(updateUrl, userData);
+    await axios.patch(updateUrl, userData);
   } catch (error) {
     console.error(error.response.data.details || error);
     throw new Error(error.message);
@@ -110,7 +108,7 @@ export const options = {
     },
   },
   pages: {
-    signIn: '/',
+    signIn: "/",
   },
   callbacks: {
     async session({ session }) {
@@ -119,16 +117,8 @@ export const options = {
           const user = await axios.get(
             `${process.env.API_URL}/api/users?email=${session?.user?.email}`
           );
-          const {
-            _id,
-            name,
-            email,
-            password,
-            image,
-            socials,
-            personalInfo,
-            role,
-          } = user.data.users;
+          const { _id, name, email, image, socials, personalInfo, role } =
+            user.data.users;
           session.user = {
             _id,
             name,
@@ -151,22 +141,20 @@ export const options = {
       switch (account.provider) {
         case "github":
           try {
-            const gbuser = await axios.get(
+            const gbuser = await axiosInstance.get(
               `${process.env.API_URL}/api/auth/githuboauthusers?email=${profile.email}`
             );
 
-            const pduser = gbuser.data.user;
-
-            if (pduser) {
-              // User exists, update their information
+            if (
+              Array.isArray(gbuser.data.user) &&
+              gbuser.data.user.length > 0
+            ) {
               const updateUserData = {
-                ...pduser,
                 name: profile.name,
                 email: profile.email,
                 image: profile.avatar_url,
                 socials: [
                   {
-                    ...gbuser.socials[0].toObject(),
                     twitter:
                       profile.twitter_username === "null"
                         ? ""
@@ -175,7 +163,6 @@ export const options = {
                 ],
                 personalInfo: [
                   {
-                    ...gbuser.personalInfo[0].toObject(),
                     location: profile.location,
                     company: profile.company,
                     bio: profile.bio === "null" ? "" : profile.bio,
@@ -184,7 +171,7 @@ export const options = {
                 role: "user",
               };
 
-              const updUser = await axios.patch(
+              await axiosInstance.patch(
                 `${process.env.API_URL}/api/users?email=${profile.email}`,
                 updateUserData
               );
@@ -210,7 +197,7 @@ export const options = {
                 role: "user",
               };
 
-              const res = await axios.post(
+              await axiosInstance.post(
                 `${process.env.API_URL}/api/auth/githuboauthusers`,
                 userData
               );
@@ -237,54 +224,60 @@ export const options = {
                 role: "user",
               };
 
-              const response = await createUser(
-                `${process.env.API_URL}/api/users`,
-                newUser
-              );
+              await axiosInstance.post(`${process.env.API_URL}/api/users`, newUser);
             }
 
             return true;
           } catch (error) {
-            // Handle errors here
-            console.error(error);
-
-            return NextResponse.error("Internal Server Error", { status: 500 });
+            console.log({"Error":error})
+            throw new Error(error);
           }
 
         case "google":
           try {
             // Check if the user exists in your database
-            const gguser = await axiosInstance.get(`${process.env.API_URL}/api/auth/googleoauthusers?email=${profile.email}`);
-          
+            const gguser = await axiosInstance.get(
+              `${process.env.API_URL}/api/auth/googleoauthusers?email=${profile.email}`
+            );
+
             const userData = {
               name: profile.name,
               email: profile.email,
               image: profile.picture,
               role: "user",
             };
-          
-            if (Array.isArray(gguser.data.users) && gguser.data.users.length > 0) {
+
+            if (
+              Array.isArray(gguser.data.users) &&
+              gguser.data.users.length > 0
+            ) {
               // User exists, update their information
-              const updatedUser = await axiosInstance.put(`${process.env.API_URL}/api/users?email=${profile.email}`, userData);
+              const updatedUser = await axiosInstance.patch(
+                `${process.env.API_URL}/api/users?email=${profile.email}`,
+                userData
+              );
               console.log("User updated:", updatedUser.data);
             } else {
               // User does not exist, create a new user
               await createUser(`${process.env.API_URL}/api/users`, userData);
-              await axiosInstance.post(`${process.env.API_URL}/api/auth/googleoauthusers`, {
-                ...userData,
-                locale: profile.locale,
-              });
+              await axiosInstance.post(
+                `${process.env.API_URL}/api/auth/googleoauthusers`,
+                {
+                  ...userData,
+                  locale: profile.locale,
+                }
+              );
               console.log("New user created");
             }
-          
+
             return true;
           } catch (error) {
             // Handle errors here
             console.error("Error:", error);
-          
+
             // Customize the error response as needed
             return { error: "Internal Server Error", status: 500 };
-          }          
+          }
 
         // If user doesn't exist, create a new user
 
