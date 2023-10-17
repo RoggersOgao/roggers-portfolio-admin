@@ -149,64 +149,13 @@ export const options = {
               name: profile.name,
               email: profile.email,
               image: profile.avatar_url,
-              socials: [
-                {
-                  twitter:
-                    profile.twitter_username === "null"
-                      ? ""
-                      : `https://twitter.com/${profile.twitter_username}`,
-                },
-              ],
-              personalInfo: [
-                {
-                  location: profile.location,
-                  company: profile.company,
-                  bio: profile.bio || "", // Use the || operator to set an empty string if bio is falsy
-                },
-              ],
               role: "user",
             };
 
             if (gbuser.data.user) {
-              console.log("user found")
-              const pduser = await getUserByEmail(
-                `${process.env.API_URL}/api/users?email=${profile.email}`
-              );
-              const updatedUsergb = {
-                ...pduser,
-                ...updateUserData,
-                _id: undefined,
-                createdAt: undefined,
-                updatedAt: undefined,
-                __v: undefined,
-                password: undefined,
-                socials: [
-                  ...pduser.socials,
-                  ...updateUserData.socials.filter((item) =>
-                    !pduser.socials.some((existingItem) =>
-                      item.twitter === existingItem.twitter
-                    )
-                  ),
-                ],
-                personalInfo: [
-                  ...pduser.personalInfo,
-                  ...updateUserData.personalInfo.filter((item) =>
-                    !pduser.personalInfo.some((existingItem) =>
-                      item.location === existingItem.location &&
-                      item.company === existingItem.company &&
-                      item.bio === existingItem.bio
-                    )
-                  ),
-                ],
-              };
-            
-              // Now, you can use the updatedUsergb object for your further operations, such as making a PUT request.
-            
-              console.log(updatedUsergb); // To see the merged object
-              
               await axiosInstance.put(
                 `${process.env.API_URL}/api/users?email=${profile.email}`,
-                updatedUsergb
+                updateUserData
               );
               console.log("updated successfully")
             } else {
@@ -241,21 +190,6 @@ export const options = {
                 name: profile.name,
                 email: profile.email,
                 image: profile.avatar_url,
-                socials: [
-                  {
-                    twitter:
-                      profile.twitter_username === "null"
-                        ? ""
-                        : `https://twitter.com/${profile.twitter_username}`,
-                  },
-                ],
-                personalInfo: [
-                  {
-                    location: profile.location,
-                    company: profile.company,
-                    bio: profile.bio || "", // Use the || operator to set an empty string if bio is falsy
-                  },
-                ],
                 role: "user",
               };
 
@@ -278,38 +212,27 @@ export const options = {
             );
 
             const userData = {
-              name: profile.name,
-              email: profile.email,
-              image: profile.picture,
-              role: "user",
+                name: profile.name,
+                email: profile.email,
+                image: profile.picture,
+                role: "user",
             };
 
-            if (
-              Array.isArray(gguser.data.users) &&
-              gguser.data.users.length > 0
-            ) {
-              const pduser = await getUserByEmail(
-                `${process.env.API_URL}/api/users?email=${profile.email}`
-              );
-
-              const updatedUsergg = {
-                ...pduser,
-                ...userData,
-              };
+            if (gguser.data.user) {   
               // User exists, update their information
               const updatedUser = await axiosInstance.put(
                 `${process.env.API_URL}/api/users?email=${profile.email}`,
-                updatedUsergg // Use updatedUsergg directly
+                userData
               );
               console.log("User updated:", updatedUser.data);
             } else {
               // User does not exist, create a new user
 
-
               await createUser(
                 `${process.env.API_URL}/api/users`,
                 userData
-              );
+                );
+              console.log("New user created");
               await axiosInstance.post(
                 `${process.env.API_URL}/api/auth/googleoauthusers`,
                 {
@@ -317,7 +240,7 @@ export const options = {
                   locale: profile.locale,
                 }
               );
-              console.log("New user created");
+              
             }
 
             return true;
@@ -345,19 +268,9 @@ export const options = {
                 role: user.role,
               };
 
-              const updatedUseCr = {
-                ...pduser,
-                ...updatedUserData,
-                _id: undefined,
-                createdAt: undefined,
-                updatedAt: undefined,
-                __v: undefined,
-                password: undefined,
-              };
-
               await axiosInstance.put(
                 `${process.env.API_URL}/api/users?email=${user.email}`,
-                updatedUseCr
+                updatedUserData
               );
             }
             return true;
